@@ -1,0 +1,6 @@
+.env
+.env.local
+.git-askpass.sh
+*.pem
+*.key
+id_rsa*

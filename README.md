@@ -25,11 +25,22 @@
 | `k8s/master/resources/` | bootstrap token 与 kubelet / apiserver RBAC |
 | `k8s/master/audit/`、`k8s/master/encryption/` | 审计策略与 Secret 静态加密配置 |
 | `k8s/node/` | worker 节点 kubelet 配置与 systemd 单元 |
-| `k8s/addons/` | CNI（Calico / Flannel）、CoreDNS、kube-proxy、metrics-server |
-| `k8s/ExtraAddons/` | Prometheus 栈、EFK、Ingress、Dashboard、external-dns 等可选组件 |
+| `k8s/addons/` | CNI（Calico / Flannel）、CoreDNS、kube-proxy（metrics-server 已迁至归档） |
+| `k8s/ExtraAddons/` | Prometheus 栈、Ingress、external-dns 等可选组件（Dashboard / EFK / WeaveScope 已迁至归档） |
+| `k8s/archived/` | **禁止部署**的高风险历史清单（见该目录 `ARCHIVED.md`） |
 | `k8s/apps/` | 示例应用清单（nginx Deployment / Service / Ingress） |
+| `examples/current/` | 现代 Kubernetes 示例基线（不覆盖 `k8s/` 历史清单） |
 | `pull.sh` | 通过国内镜像源同步 `gcr.io` / `k8s.gcr.io` / `quay.io` 镜像 |
 | `vsphere.sh` | vSphere 侧磁盘处理辅助脚本 |
+
+## 禁止直接部署
+
+以下目录**不得**作为推荐安装入口或一键 apply 目标：
+
+- `k8s/archived/**`（及旧路径跳转说明：`k8s/ExtraAddons/WeaveScope`、`dashboard`、`efk`，`k8s/addons/metric-server`）
+- 任何恢复 `anonymous-proxy-rbac` / 匿名 `cluster-admin` 的清单
+
+新集群请优先阅读 Wiki [INFRA-01](https://github.com/a307582707/TomYang/wiki/INFRA-01-本仓HA控制面与节点接入) 与 `examples/current/`。
 
 ## 使用说明
 

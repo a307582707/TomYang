@@ -1,15 +1,17 @@
-# 上海海曦技术 · 运维与平台工程实践
+# 文档已迁移
 
-生产故障复盘、架构取舍、容量成本、发布治理与平台建设记录。  
-内容来自真实排障与落地过程，含时间线、命令、指标与防再发动作。
+运维与平台工程文档的正文统一维护在 [项目 Wiki](https://github.com/a307582707/TomYang/wiki)，
+本目录不再保存副本，避免两处内容漂移。
 
-| 编号 | 主题 | 文档 | 案例 |
-|------|------|------|------|
-| 01 | 生产事故复盘 | [01-incident-postmortem.md](./01-incident-postmortem.md) | kubelet 磁盘压力导致大面积 NotReady |
-| 02 | 架构决策 | [02-architecture-decisions.md](./02-architecture-decisions.md) | 暂缓全量 Istio；业务交付不全量 Helm |
-| 03 | 容量与成本 | [03-capacity-cost.md](./03-capacity-cost.md) | 闲置资源治理，月成本下降 38% |
-| 04 | 可观测性 | [04-observability.md](./04-observability.md) | 一次 2.3s 慢请求的端到端定位 |
-| 05 | 发布与回滚 | [05-release-rollback.md](./05-release-rollback.md) | 金丝雀指标健康，数据库却被迁移拖垮 |
-| 06 | 平台化 | [06-platform-selfservice.md](./06-platform-selfservice.md) | 从工单交付到 GitOps 自服务 |
-| 07 | 安全与权限 | [07-security-rbac.md](./07-security-rbac.md) | CI 泄漏 Token 的 45 分钟应急 |
-| 08 | 深度专题 | [08-deep-dive-node-notready.md](./08-deep-dive-node-notready.md) | Node NotReady 根因图谱与处置手册 |
+| 主题 | 位置 |
+|------|------|
+| 生产事故复盘 | [SRE-01](https://github.com/a307582707/TomYang/wiki/SRE-01-生产事故复盘-磁盘压力导致节点NotReady) |
+| 架构决策 | [SRE-02](https://github.com/a307582707/TomYang/wiki/SRE-02-架构决策-为什么不上Istio与全量Helm) |
+| 容量与成本 | [SRE-03](https://github.com/a307582707/TomYang/wiki/SRE-03-容量与成本-集群费用下降38%) |
+| 可观测性 | [SRE-04](https://github.com/a307582707/TomYang/wiki/SRE-04-可观测性落地-慢请求端到端追踪) |
+| 发布与回滚 | [SRE-05](https://github.com/a307582707/TomYang/wiki/SRE-05-发布与回滚-金丝雀误判与数据库迁移) |
+| 平台化 | [SRE-06](https://github.com/a307582707/TomYang/wiki/SRE-06-平台化自服务-从工单到GitOps) |
+| 安全与权限 | [SRE-07](https://github.com/a307582707/TomYang/wiki/SRE-07-安全与权限-CI泄漏Token应急) |
+| Node NotReady 手册 | [SRE-08](https://github.com/a307582707/TomYang/wiki/SRE-08-深度专题-Node-NotReady根因图谱) |
+| 本仓 HA 控制面 | [INFRA-01](https://github.com/a307582707/TomYang/wiki/INFRA-01-本仓HA控制面与节点接入) |
+| 智算推理交付 | [AIDC-01](https://github.com/a307582707/TomYang/wiki/AIDC-01-智算推理交付与运维) |

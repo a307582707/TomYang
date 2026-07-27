@@ -26,14 +26,14 @@
 | Flannel | v0.10.0 | 评估是否保留 | 旧 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | 与 Calico 二选一文档化 | Pod 跨节点通信 | 重装 CNI |
 | CoreDNS | 1.2.0 | 现网默认 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 重建 | DNS 解析与 metrics:9153 | 回滚 Deployment |
 | kube-proxy | v1.11.3 | 随控制面 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 随集群重建 | Service 转发 | 节点回滚 |
-| metrics-server | v0.2.1 / v0.3.1 | 现网版本 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 去掉 insecure 抓取 | `kubectl top` | 回滚清单 |
+| metrics-server（旧） | v0.2.1 / v0.3.1（`k8s/archived/metric-server/`） | 现网版本 | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 禁止 insecure 抓取；勿作推荐安装 | `kubectl top`（新清单） | 回滚新清单 |
 | Ingress NGINX | 0.17.0 | 现网控制器 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | Ingress API v1 | HTTP 路由 | 回滚控制器 |
 | Prometheus Operator | v0.22.0 | kube-prometheus-stack 现行 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 全量重建监控 | 目标/告警是否齐全 | 保留旧监控至切换 |
 | Grafana | 5.1.0 | 现行 | 旧 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | PVC + 密钥注入 | 登录与数据源 | 回滚 Deployment |
 | Alertmanager | 随 Operator 旧栈 | 现行 | 旧 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | 目录名 `alertmanater` 文档化/重命名 | 告警接收 | 回滚 CR |
-| EFK | ES/Kibana 6.2 | 现网日志方案 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 重建 | 日志查询 | 回切 |
-| Dashboard | v1.8.3 | 禁用或现行+SSO | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 匿名 RBAC 已删除（待合入 Task3） | 无匿名访问 | N/A |
-| Weave Scope | 1.10.1 | 移除 | 停更 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 删除目录 | 仓库扫描无 docker.sock 示例 | git revert |
+| EFK（旧） | ES/Kibana 6.2（`k8s/archived/efk/`） | 现网日志方案 | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 禁止部署 | 日志查询（新方案） | 回切 |
+| Dashboard | v1.8.3（`k8s/archived/dashboard/`） | 禁用或现行+SSO | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 禁止部署；匿名 RBAC 已删除 | 仓库无推荐安装入口 | N/A |
+| Weave Scope | 1.10.1（`k8s/archived/WeaveScope/`） | 移除 | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 已迁入 archived | 静态检查隔离 | git revert 迁移 |
 | HAProxy/Keepalived | 1.7 / 1.3.9 镜像 | 锁定现行包 | HA 入口 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | 补齐 backend server；stats 占位符 | VIP 漂移与 healthz | 回滚配置 |
 | kubelet cgroup | cgroupfs | systemd + CRI | 旧配置 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 与 containerd 对齐 | 节点 Ready、无 Evict 异常 | 回滚 kubelet config |
 

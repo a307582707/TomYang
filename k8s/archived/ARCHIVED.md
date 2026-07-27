@@ -19,9 +19,9 @@
 
 ## 使用规则
 
-1. 学习时请只读；对照 `docs/audits/k8s-security-report.md` 与兼容性矩阵。  
-2. 新环境请使用 `examples/current/`（现代基线）或现网发行版清单。  
-3. 不得把本目录写入「推荐安装」入口、一键安装脚本或 INFRA 默认步骤。  
+1. 学习时请只读；对照 `docs/audits/k8s-security-report.md` 与兼容性矩阵。
+2. 新环境请使用 `examples/current/`（现代基线）或现网发行版清单。
+3. 不得把本目录写入「推荐安装」入口、一键安装脚本或 INFRA 默认步骤。
 4. 旧路径留下的 README 仅为跳转说明。
 
 ## 回滚

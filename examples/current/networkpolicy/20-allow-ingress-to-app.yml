@@ -1,0 +1,24 @@
+# 放行 Ingress Controller → 应用 Pod
+# 标签/命名空间均为通用占位；对照 examples/current/apps/demo-web.yml 的 app: demo-web
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-to-app
+  namespace: "{{ TARGET_NAMESPACE }}"
+spec:
+  podSelector:
+    matchLabels:
+      app: "{{ APP_LABEL }}"
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          "{{ INGRESS_NS_LABEL_KEY }}": "{{ INGRESS_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          "{{ INGRESS_POD_LABEL_KEY }}": "{{ INGRESS_POD_LABEL_VALUE }}"
+    ports:
+    - protocol: TCP
+      port: "{{ APP_PORT }}"

@@ -1,0 +1,24 @@
+# 放行 Prometheus 抓取目标 Pod（通用标签，非本仓旧 Operator 硬编码）
+# 现网可改用 ServiceMonitor 命名空间约定；参见 k8s/ExtraAddons/prometheus/ 仅作历史对照
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-prometheus-scrape
+  namespace: "{{ TARGET_NAMESPACE }}"
+spec:
+  podSelector:
+    matchLabels:
+      "{{ SCRAPE_TARGET_LABEL_KEY }}": "{{ SCRAPE_TARGET_LABEL_VALUE }}"
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          "{{ PROMETHEUS_NS_LABEL_KEY }}": "{{ PROMETHEUS_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          "{{ PROMETHEUS_POD_LABEL_KEY }}": "{{ PROMETHEUS_POD_LABEL_VALUE }}"
+    ports:
+    - protocol: TCP
+      port: "{{ METRICS_PORT }}"

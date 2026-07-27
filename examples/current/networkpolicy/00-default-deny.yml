@@ -1,0 +1,12 @@
+# 默认拒绝：命名空间内全部 Pod 的 Ingress + Egress
+# 占位符须替换；仅用于实验命名空间，勿直接套生产。
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: "{{ TARGET_NAMESPACE }}"
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress

@@ -30,7 +30,7 @@
 | Ingress NGINX | 0.17.0 | 现网控制器 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | Ingress API v1 | HTTP 路由 | 回滚控制器 |
 | Prometheus Operator | v0.22.0 | kube-prometheus-stack 现行 | 旧 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 全量重建监控 | 目标/告警是否齐全 | 保留旧监控至切换 |
 | Grafana | 5.1.0 | 现行 | 旧 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | PVC + 密钥注入 | 登录与数据源 | 回滚 Deployment |
-| Alertmanager | 随 Operator 旧栈 | 现行 | 旧 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | 目录名 `alertmanater` 文档化/重命名 | 告警接收 | 回滚 CR |
+| Alertmanager | 随 Operator 旧栈 | 现行 | 旧 | 中 | 维护者 | 2026-07-27 | 2026-10-25 | 目录名 `alertmanager` 文档化/重命名 | 告警接收 | 回滚 CR |
 | EFK（旧） | ES/Kibana 6.2（`k8s/archived/efk/`） | 现网日志方案 | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 禁止部署 | 日志查询（新方案） | 回切 |
 | Dashboard | v1.8.3（`k8s/archived/dashboard/`） | 禁用或现行+SSO | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 禁止部署；匿名 RBAC 已删除 | 仓库无推荐安装入口 | N/A |
 | Weave Scope | 1.10.1（`k8s/archived/WeaveScope/`） | 移除 | 归档 | 高 | 维护者 | 2026-07-27 | 2026-10-25 | 已迁入 archived | 静态检查隔离 | git revert 迁移 |

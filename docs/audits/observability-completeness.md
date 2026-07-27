@@ -30,7 +30,7 @@
 2. **勿把 `endpoints.example.yml` 原样用于生产**；替换 IP，并确认 10251/10252 对 Prometheus 可达。  
 3. **现代 kube-scheduler/controller-manager** 常关闭非安全端口或只绑 loopback → 需 `--bind-address`/secure metrics 方案，超出本仓 1.11 语义。  
 4. Grafana / Prometheus / ES **无可靠持久化**；生产需 PVC + StorageClass（按站点新建，不在本 PR 猜测类名）。  
-5. 目录名 `alertmanater` 拼写错误；重命名需批量改引用，留待维护窗口。  
+5. 目录名 `alertmanager` 拼写错误；重命名需批量改引用，留待维护窗口。  
 6. 组件版本 EOL：见 `docs/audits/k8s-compatibility-matrix.md`；新集群建议 kube-prometheus-stack，而非原地升级本目录。
 
 ## 建议 apply 顺序（历史栈）

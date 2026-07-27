@@ -14,13 +14,28 @@ spec:
     metadata:
       labels:
         app: demo-web
+        role: app
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
+        fsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: nginx
         image: "{{ DEMO_WEB_IMAGE }}"
         ports:
         - name: http
           containerPort: 80
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+            add:
+            - NET_BIND_SERVICE
         resources:
           requests:
             cpu: 50m

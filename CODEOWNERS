@@ -1,0 +1,12 @@
+# Default maintainer — do not invent team accounts.
+* @a307582707
+
+/k8s/master/ @a307582707
+/k8s/node/ @a307582707
+/k8s/addons/ @a307582707
+/k8s/ExtraAddons/ @a307582707
+/k8s/archived/ @a307582707
+/scripts/ @a307582707
+/docs/audits/ @a307582707
+/.github/workflows/ @a307582707
+/examples/ @a307582707

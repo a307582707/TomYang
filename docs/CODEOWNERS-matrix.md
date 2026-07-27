@@ -12,3 +12,8 @@
 | Wiki（`TomYang.wiki`） | `@a307582707` | 无 CODEOWNERS 文件时按维护者 |
 
 未编造其他团队账号；后续有真实负责人再更新。
+
+## 文件位置
+
+- 根目录 `CODEOWNERS` 与 `.github/CODEOWNERS` 内容须一致（Task 56）。
+- 修改任一侧时请同步另一侧，避免漂移。

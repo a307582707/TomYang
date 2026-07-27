@@ -28,21 +28,21 @@
 
 ## 剩余问题
 
-1. Grafana 生产应改 PVC；Alertmanager/Prometheus 存储策略需按 CR 明确。  
-2. 多处 `insecureSkipVerify` / metrics-server insecure（跨任务）。  
-3. `alertmanager` 目录重命名需全库替换引用。  
-4. discovery Endpoints 仅提供文档示例，未提交含真实 IP 的清单。  
+1. Grafana 生产应改 PVC；Alertmanager/Prometheus 存储策略需按 CR 明确。
+2. 多处 `insecureSkipVerify` / metrics-server insecure（跨任务）。
+3. `alertmanager` 目录重命名需全库替换引用。
+4. discovery Endpoints 仅提供文档示例，未提交含真实 IP 的清单。
 5. Operator/CRD 版本过旧，不建议在新集群直接 apply（见 Task 2）。
 
 ## 检查结果
 
-- [x] 核对 ServiceMonitor ↔ Service 标签与端口  
-- [x] 核对 EFK 服务名与 Fluentd/Kibana 配置  
-- [x] 低风险项已修；其余写入本报告  
+- [x] 核对 ServiceMonitor ↔ Service 标签与端口
+- [x] 核对 EFK 服务名与 Fluentd/Kibana 配置
+- [x] 低风险项已修；其余写入本报告
 
 ## 风险说明
 
-- CoreDNS Service 增加 metrics 端口对现网无害；若有 NetworkPolicy 需放行 9153。  
+- CoreDNS Service 增加 metrics 端口对现网无害；若有 NetworkPolicy 需放行 9153。
 - 未升级 Operator，避免运行时大变。
 
 ## 回滚方法

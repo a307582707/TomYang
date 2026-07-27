@@ -1,9 +1,9 @@
 # 最终验收报告（Task 18）
 
-**检查时间:** 2026-07-27 17:45（UTC+8）  
-**主仓 tip:** `5193d0b`（`origin/master`）  
-**Wiki tip:** `e86ad6a`（`TomYang.wiki` / `master`）  
-**Wiki 备份标签:** `backup/wiki-master-20260727`  
+**检查时间:** 2026-07-27 17:45（UTC+8）
+**主仓 tip:** `5193d0b`（`origin/master`）
+**Wiki tip:** `e86ad6a`（`TomYang.wiki` / `master`）
+**Wiki 备份标签:** `backup/wiki-master-20260727`
 **范围:** 只验收与汇总；**不修改**历史 Kubernetes 清单正文。
 
 ## 1. 主仓库静态检查
@@ -62,23 +62,23 @@
 
 ## 6. 已解决问题（摘要）
 
-- apiserver 探针与 `secure-port=5443`、HAProxy 对外 `8443` 对齐  
-- 配置路径命名与仓库文件一致；CoreDNS metrics 可被 ServiceMonitor 抓取  
-- 移除 Dashboard 匿名代理 / `cluster-admin` 绑定清单；Grafana/HAProxy 默认凭据改占位符；kubelet `readOnlyPort=0`  
-- 静态检查与夹具测试、secrets 自匹配修复  
-- Wiki 导航、拓扑描述、历史归档与备份标签  
-- 兼容性矩阵（移除版本 / 替代 API / 路径）；可观测性部署限制文档  
+- apiserver 探针与 `secure-port=5443`、HAProxy 对外 `8443` 对齐
+- 配置路径命名与仓库文件一致；CoreDNS metrics 可被 ServiceMonitor 抓取
+- 移除 Dashboard 匿名代理 / `cluster-admin` 绑定清单；Grafana/HAProxy 默认凭据改占位符；kubelet `readOnlyPort=0`
+- 静态检查与夹具测试、secrets 自匹配修复
+- Wiki 导航、拓扑描述、历史归档与备份标签
+- 兼容性矩阵（移除版本 / 替代 API / 路径）；可观测性部署限制文档
 
 ## 7. 遗留风险
 
-1. Weave Scope、Dashboard 1.8、旧 metrics-server、旧 EFK 仍在仓内可被误 apply（待 Task 19 隔离）  
-2. metrics-server 仍含 insecure kubelet 抓取参数  
-3. Grafana / Prometheus / Alertmanager / ES 持久化不完整；Operator CRD 未入库  
-4. HAProxy stats 端口需管理网 / ACL 限制  
-5. 无独立现代示例目录（待 Task 20）  
-6. etcd 备份恢复演练文档未补齐  
-7. Wiki 未纳入仓库自动链接检查流水线  
-8. 历史 git 中曾出现 Grafana 样例口令，生产勿复用  
+1. Weave Scope、Dashboard 1.8、旧 metrics-server、旧 EFK 仍在仓内可被误 apply（待 Task 19 隔离）
+2. metrics-server 仍含 insecure kubelet 抓取参数
+3. Grafana / Prometheus / Alertmanager / ES 持久化不完整；Operator CRD 未入库
+4. HAProxy stats 端口需管理网 / ACL 限制
+5. 无独立现代示例目录（待 Task 20）
+6. etcd 备份恢复演练文档未补齐
+7. Wiki 未纳入仓库自动链接检查流水线
+8. 历史 git 中曾出现 Grafana 样例口令，生产勿复用
 
 ## 8. 回滚点
 

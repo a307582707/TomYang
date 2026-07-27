@@ -1,7 +1,7 @@
 # Task 2 — 现代 Kubernetes 兼容性分析（逐文件迁移矩阵）
 
-**分支:** `audit/k8s-compatibility`（后续增强：`audit/compat-matrix-v2`）  
-**原则:** 只输出分析与迁移建议，**不批量修改**有运行时风险的历史清单。  
+**分支:** `audit/k8s-compatibility`（后续增强：`audit/compat-matrix-v2`）
+**原则:** 只输出分析与迁移建议，**不批量修改**有运行时风险的历史清单。
 **基线仓库:** Kubernetes ~1.11 / etcd 3.3 / Calico 3.1 / CoreDNS 1.2 时代手工搭建归档。
 
 **语义约定（勿混淆）：**
@@ -31,11 +31,11 @@
 
 | API | 1.11 可用 | 现代状态 | 约移除版本 | 推荐替代 | 本仓出现文件（路径） |
 |-----|-----------|----------|------------|----------|----------------------|
-| `extensions/v1beta1`（Deploy/DS/Ingress 等） | 是 | **已移除** | Ingress：1.22；多数工作负载更早迁出 extensions | 工作负载 → `apps/v1`；Ingress → `networking.k8s.io/v1` | `k8s/addons/calico/v3.1/calico.yml`、`calicoctl.yml`；`k8s/addons/coredns/coredns.yml`；`k8s/addons/flannel/kube-flannel.yml`；`k8s/addons/kube-proxy/kube-proxy.yml`；`k8s/addons/Kubedns/kubedns.yml`；`k8s/addons/metric-server/metrics-server.yml`、`metrics-server-1.12+.yml`；`k8s/apps/nginx/nginx-ing.yml`；`k8s/ExtraAddons/ingress-controller/ingress-controller.yml`；`k8s/ExtraAddons/external-dns/coredns/coredns-dp.yml`、`etcd-dp.yml`；`k8s/ExtraAddons/prometheus/grafana/grafana-ing.yml`、`prometheus/prometheus-ing.yml`；`k8s/ExtraAddons/WeaveScope/scope.yml` |
+| `extensions/v1beta1`（Deploy/DS/Ingress 等） | 是 | **已移除** | Ingress：1.22；多数工作负载更早迁出 extensions | 工作负载 → `apps/v1`；Ingress → `networking.k8s.io/v1` | `k8s/addons/calico/v3.1/calico.yml`、`calicoctl.yml`；`k8s/addons/coredns/coredns.yml`；`k8s/addons/flannel/kube-flannel.yml`；`k8s/addons/kube-proxy/kube-proxy.yml`；`k8s/addons/kube-dns/kubedns.yml`；`k8s/addons/metrics-server/metrics-server.yml`、`metrics-server-1.12+.yml`；`k8s/apps/nginx/nginx-ing.yml`；`k8s/ExtraAddons/ingress-controller/ingress-controller.yml`；`k8s/ExtraAddons/external-dns/coredns/coredns-dp.yml`、`etcd-dp.yml`；`k8s/ExtraAddons/prometheus/grafana/grafana-ing.yml`、`prometheus/prometheus-ing.yml`；`k8s/ExtraAddons/WeaveScope/scope.yml` |
 | `apps/v1beta1` | 是 | **已移除** | 1.16 | `apps/v1` | `k8s/addons/calico/v3.1/calico.yml` |
 | `apps/v1beta2` | 是 | **已移除** | 1.16 | `apps/v1` | `k8s/ExtraAddons/dashboard/kubernetes-dashboard.yml`；`prometheus/grafana/grafana-dp.yml`；`prometheus/kube-state-metrics/kube-state-metrics-dp.yml`；`prometheus/node-exporter/node-exporter-ds.yml`；`prometheus/operator/operator.yml` |
 | `rbac.authorization.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `rbac.authorization.k8s.io/v1` | `k8s/addons/calico/v3.1/rbac-kdd.yml`、`calicoctl.yml`；`coredns/coredns.yml`；`flannel/kube-flannel.yml`；`kube-proxy/kube-proxy.yml`；`metric-server/*.yml`；`ExtraAddons/ingress-controller/ingress-controller-rbac.yml`；`ExtraAddons/external-dns/external-dns/external-dns-rbac.yml` |
-| `apiregistration.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `apiregistration.k8s.io/v1` | `k8s/addons/metric-server/metrics-server.yml`、`metrics-server-1.12+.yml` |
+| `apiregistration.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `apiregistration.k8s.io/v1` | `k8s/addons/metrics-server/metrics-server.yml`、`metrics-server-1.12+.yml` |
 | `apiextensions.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `apiextensions.k8s.io/v1`（需 `openAPIV3Schema`） | `k8s/addons/calico/v3.1/calico.yml` |
 | `audit.k8s.io/v1beta1` | 是 | **已废弃→移除路径** | 策略 API 随版本演进；1.24+ 以 `audit.k8s.io/v1` 为准 | `audit.k8s.io/v1` | `k8s/master/audit/policy.yml` |
 | `monitoring.coreos.com/v1` | 取决于当时 Operator | **未进上游核心**；随 Operator 版本变化 | N/A（CRD） | 现行 kube-prometheus-stack CRD | `k8s/ExtraAddons/prometheus/**` 下 Prometheus/Alertmanager/ServiceMonitor/PrometheusRule |
@@ -54,7 +54,7 @@
 | `--network-plugin=cni` | `k8s/master/systemd/kubelet.service` 等 | Docker 时代 kubelet 网络插件 | dockershim 移除后旗标无意义 | CRI + CNI 由 runtime/CNI 管理 |
 | `readOnlyPort` | `k8s/master/etc/kubelet/kubelet-conf.yml`、`k8s/node/etc/kubelet/kubelet-conf.yml` | 历史为 `10255` | 现代默认关闭 | **本仓已在安全任务改为 `0`**；旧 metrics-server insecure 抓取随之失效 |
 | `cgroupDriver: cgroupfs` | 同上 kubelet-conf | 常见 | 与 containerd `SystemdCgroup` 常冲突 | 与 runtime 对齐 `systemd` |
-| metrics-server `--deprecated-kubelet-completely-insecure` | `k8s/addons/metric-server/metrics-server-1.12+.yml` | 省事 | 跳过 TLS/鉴权 | 删除；配置 kubelet 鉴权抓取 |
+| metrics-server `--deprecated-kubelet-completely-insecure` | `k8s/addons/metrics-server/metrics-server-1.12+.yml` | 省事 | 跳过 TLS/鉴权 | 删除；配置 kubelet 鉴权抓取 |
 
 ## 4. EOL 镜像与组件（摘录）
 
@@ -122,9 +122,9 @@
 | `addons/calico/v3.1/*` | extensions/apps beta；CRD v1beta1；rbac beta | Calico 3.1 | H | Skip 重建 | 现行 Calico |
 | `addons/flannel/*` | extensions；rbac beta | Flannel 0.10 | H | Skip 重建 | 现行 Flannel/其他 |
 | `addons/coredns/coredns.yml` | extensions；rbac beta | CoreDNS 1.2.0 | H | 重建 | 现行 CoreDNS |
-| `addons/Kubedns/*` | extensions | kube-dns | Skip | 归档 | 使用 CoreDNS |
+| `addons/kube-dns/*` | extensions | kube-dns | Skip | 归档 | 使用 CoreDNS |
 | `addons/kube-proxy/*` | extensions；rbac beta | kube-proxy 1.11.3 | H | 随控制面版本重建 | 匹配 K8s |
-| `addons/metric-server/*.yml` | extensions；apiregistration beta | 不安全 kubelet 抓取 | H | 重建；去 insecure | 现行 metrics-server |
+| `addons/metrics-server/*.yml` | extensions；apiregistration beta | 不安全 kubelet 抓取 | H | 重建；去 insecure | 现行 metrics-server |
 | `apps/nginx/*` | extensions Ingress/Deploy | `nginx` latest | M | 示例可现代化（Task1 已部分做） | apps/v1 + networking/v1 |
 | `ExtraAddons/ingress-controller/*` | extensions；rbac beta | 0.17.0 | H | 重建 | 现行 Ingress 控制器 |
 | `ExtraAddons/prometheus/**` | apps/v1beta2；extensions Ingress | Operator 0.22；Grafana 5.1 | H | 换 kube-prometheus-stack | 现行栈 |
@@ -136,28 +136,28 @@
 
 ## 9. 推荐迁移顺序（不改本仓运行时）
 
-1. 新建目标版本集群（kubeadm/kubean/供应商发行版）。  
-2. 重建网络、Ingress、证书与入口 VIP 策略。  
-3. 迁移无状态工作负载 → 有状态 → 可观测与日志。  
-4. 对照本矩阵逐项勾选退役旧镜像与旧 API。  
+1. 新建目标版本集群（kubeadm/kubean/供应商发行版）。
+2. 重建网络、Ingress、证书与入口 VIP 策略。
+3. 迁移无状态工作负载 → 有状态 → 可观测与日志。
+4. 对照本矩阵逐项勾选退役旧镜像与旧 API。
 5. 本仓库继续作为 **1.11 手工拓扑教材**，新示例放 `examples/`（后续任务）。
 
 ## 10. 检查结果
 
-- [x] 扫描 `k8s` 下 apiVersion / image / 关键旗标  
-- [x] 形成逐文件矩阵与 Docker/cgroup/RBAC 专节  
-- [x] **未**批量修改生产向清单  
-- [x] Task 15：补充移除版本、替代 API、路径级清单；区分 1.11 可用 / 废弃 / 移除  
+- [x] 扫描 `k8s` 下 apiVersion / image / 关键旗标
+- [x] 形成逐文件矩阵与 Docker/cgroup/RBAC 专节
+- [x] **未**批量修改生产向清单
+- [x] Task 15：补充移除版本、替代 API、路径级清单；区分 1.11 可用 / 废弃 / 移除
 
 ## 风险说明
 
-矩阵中的「目标版本」为通用建议，需按海曦现网选定具体发行版后再定镜像标签。错误地对旧清单做半自动 API 改写可能导致「能 apply 但行为错误」。  
+矩阵中的「目标版本」为通用建议，需按海曦现网选定具体发行版后再定镜像标签。错误地对旧清单做半自动 API 改写可能导致「能 apply 但行为错误」。
 「已废弃」≠「不可运行」：在仍支持该 API 的小版本上可能仅告警。
 
 ## 未解决事项
 
-- 选定海曦现网目标 Kubernetes 小版本与 CNI 产品后，可将矩阵「目标形态」列固化为版本钉扎表（见 `docs/MAINTENANCE.md`）。  
-- 具体安全项见 `docs/audits/k8s-security-report.md`。  
+- 选定海曦现网目标 Kubernetes 小版本与 CNI 产品后，可将矩阵「目标形态」列固化为版本钉扎表（见 `docs/MAINTENANCE.md`）。
+- 具体安全项见 `docs/audits/k8s-security-report.md`。
 - Prometheus Operator CRD 未入库：见可观测性完整性审计。
 
 ## 回滚方法

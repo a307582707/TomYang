@@ -7,7 +7,8 @@ cd "$ROOT"
 ARCHIVED_MARKERS=(
   'k8s/archived/WeaveScope'
   'k8s/archived/dashboard'
-  'k8s/archived/metric-server'
+  'k8s/archived/metrics-server'
+  'k8s/archived/kube-dns'
   'k8s/archived/efk'
 )
 
@@ -16,7 +17,9 @@ FORBIDDEN_APPLY_PATHS=(
   'k8s/ExtraAddons/WeaveScope/'
   'k8s/ExtraAddons/dashboard/'
   'k8s/ExtraAddons/efk/'
-  'k8s/addons/metric-server/'
+  'k8s/addons/metrics-server/'
+  'k8s/addons/Kubedns/'
+  'k8s/addons/kube-dns/'  # stub OK if only README
   'anonymous-proxy-rbac'
 )
 
@@ -33,7 +36,7 @@ if [[ ! -f k8s/archived/ARCHIVED.md ]]; then
   fail=1
 fi
 
-for d in WeaveScope dashboard metric-server efk; do
+for d in WeaveScope dashboard metrics-server efk kube-dns; do
   if [[ ! -d "k8s/archived/$d" ]]; then
     echo "missing archived dir k8s/archived/$d" >&2
     fail=1

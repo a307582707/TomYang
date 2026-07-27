@@ -1,8 +1,4 @@
-# 生产事故复盘：kubelet 磁盘压力导致 37 个节点 NotReady
-
-> 题材类型：生产事故复盘（带时间线）  
-> 适合标题改写：`K8s 节点大面积 NotReady：不是 CNI，是磁盘把 kubelet 逼死了`  
-> 受众：SRE / 平台 / 业务研发 oncall
+# K8s 节点大面积 NotReady：不是 CNI，是磁盘把 kubelet 逼死了
 
 ## 0. 一句话结论
 
@@ -107,8 +103,6 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
 | 中段 | kubelet 进程 bug | `systemctl` 显示 active，但上报心跳失败 | 磁盘 100% 时 kubelet 写状态/日志失败，表现为停报 |
 | 纠正后 | 磁盘水位 + 日志无轮转 | 某次大促活动日志级别被调到 DEBUG 未收回 | `/var/log/pods` 单日增长 80Gi+/节点 |
 
-**写作提示**：公开承认误判，比假装「第一时间定位」更像大牛。
-
 ---
 
 ## 5. 根因拆解
@@ -155,7 +149,7 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
 
 ---
 
-## 8. 可直接发 Wiki 的「金句式摘要」
+## 8. 摘要
 
 > 大面积 NotReady，先看 `Conditions` 再看 CNI。  
 > DiskPressure 为 True 时，先救磁盘，再聊网络。  
@@ -163,9 +157,3 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
 
 ---
 
-## 9. 你改写成自己文章时要替换的字段
-
-- 集群名、命名空间、业务名  
-- 具体百分比与分钟数（用真实监控截图）  
-- 清理命令必须符合你们安全规范（生产慎用 `rm`/`crictl rmi`）  
-- 防再发表换成真实负责人和系统名

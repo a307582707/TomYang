@@ -1,8 +1,4 @@
-# 深度专题：Node NotReady 根因图谱（运维手册）
-
-> 题材类型：深度专题 / 可检索手册  
-> 适合标题：`Node NotReady 不要先重装：一张根因图谱搞定 90% 现场`  
-> 目标：一篇写透，成为团队长期检索入口
+# Node NotReady 不要先重装：根因图谱与现场处置手册
 
 ## 0. 怎么用这篇
 
@@ -38,7 +34,7 @@ df -h
 
 ---
 
-## 2. Ready 的本质（写清原理才像专家）
+## 2. Ready 的本质
 
 节点 Ready ≈ **kubelet 能稳定向 apiserver 上报 NodeStatus**，且关键条件为 False（无压力、网络可用等）。
 
@@ -243,7 +239,7 @@ NotReady
 
 ---
 
-## 10. 现场纪律（专业度细节）
+## 10. 现场纪律
 
 1. **先采集证据包再重启**：`describe node`、kubelet/containerd 日志、`df`、`dmesg`、CNI Pod 日志。  
 2. **排水优于重启**：`kubectl drain --ignore-daemonsets --delete-emptydir-data`（按业务评估）。  

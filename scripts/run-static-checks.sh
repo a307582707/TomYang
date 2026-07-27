@@ -15,3 +15,4 @@ bash scripts/check-repo-path-refs.sh
 bash scripts/check-archived-isolation.sh
 bash scripts/check-doc-quality.sh
 echo "ALL STATIC CHECKS PASSED"
+bash scripts/check-wiki-links.sh

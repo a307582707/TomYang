@@ -30,18 +30,18 @@
 
 ## 安全整改清单（未改）
 
-1. **metrics-server** 去掉 insecure kubelet 抓取，改为正式 kubelet 鉴权（依赖较新 metrics-server）。  
-2. **删除或移出** `WeaveScope/` 目录（本 PR 仅标注）。  
-3. **删除/替换** 过旧 Dashboard Deployment，或提供最小权限 Role 示例。  
-4. **历史 git 历史** 中 Grafana `r00tme` 仍可找回 → 视为已泄露样例，生产勿复用。  
-5. 控制面 `hostNetwork`/`hostPath` 证书目录：保持但限制节点登录与文件权限（运维规程）。  
-6. node-exporter `hostPID`/`hostNetwork`：评估是否改为更安全的采集方式。  
-7. Elasticsearch `privileged: true`：评估是否可去除。  
+1. **metrics-server** 去掉 insecure kubelet 抓取，改为正式 kubelet 鉴权（依赖较新 metrics-server）。
+2. **删除或移出** `WeaveScope/` 目录（本 PR 仅标注）。
+3. **删除/替换** 过旧 Dashboard Deployment，或提供最小权限 Role 示例。
+4. **历史 git 历史** 中 Grafana `r00tme` 仍可找回 → 视为已泄露样例，生产勿复用。
+5. 控制面 `hostNetwork`/`hostPath` 证书目录：保持但限制节点登录与文件权限（运维规程）。
+6. node-exporter `hostPID`/`hostNetwork`：评估是否改为更安全的采集方式。
+7. Elasticsearch `privileged: true`：评估是否可去除。
 8. HAProxy stats 端口 `8006`：建议仅监听内网或加防火墙。
 
 ## 风险说明
 
-- 关闭 kubelet 只读端口后，依赖 `10255` 的旧 metrics-server 清单将无法工作（本就不应在现代环境使用）。  
+- 关闭 kubelet 只读端口后，依赖 `10255` 的旧 metrics-server 清单将无法工作（本就不应在现代环境使用）。
 - 删除匿名 Dashboard RBAC 后，若有文档仍引用该文件，需在 Wiki 归档任务中更新。
 
 ## 未解决事项

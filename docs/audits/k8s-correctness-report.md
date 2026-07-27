@@ -1,7 +1,7 @@
 # Task 1 — Kubernetes 清单正确性审计报告
 
-**分支:** `audit/k8s-correctness`  
-**范围:** `k8s/**/*.yml|yaml`、`k8s/**/*.service`、相关 shell  
+**分支:** `audit/k8s-correctness`
+**范围:** `k8s/**/*.yml|yaml`、`k8s/**/*.service`、相关 shell
 **方法:** 人工对照 + PyYAML `safe_load_all`（100/100 通过）+ `bash -n` / `git diff --check`
 
 ## 已修复（低风险、可确定）
@@ -29,9 +29,9 @@
 
 ## 检查结果
 
-- [x] PyYAML 解析 `k8s` 下 YAML：100 通过，0 失败  
-- [x] `bash -n` keepalived check 脚本  
-- [x] `git diff --check` 无行尾空白错误  
+- [x] PyYAML 解析 `k8s` 下 YAML：100 通过，0 失败
+- [x] `bash -n` keepalived check 脚本
+- [x] `git diff --check` 无行尾空白错误
 
 ## 风险说明
 
@@ -40,10 +40,10 @@
 
 ## 未解决事项
 
-- alertmanager 目录重命名  
-- systemd 与静态 Pod 双轨文档化/收敛（见 Task 6/9）  
-- discovery Service 的 Endpoints 样例  
-- 现代 API / EOL 镜像（见 Task 2）  
+- alertmanager 目录重命名
+- systemd 与静态 Pod 双轨文档化/收敛（见 Task 6/9）
+- discovery Service 的 Endpoints 样例
+- 现代 API / EOL 镜像（见 Task 2）
 
 ## 回滚方法
 

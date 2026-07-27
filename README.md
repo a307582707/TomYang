@@ -37,7 +37,7 @@
 
 以下目录**不得**作为推荐安装入口或一键 apply 目标：
 
-- `k8s/archived/**`（及旧路径跳转说明：`k8s/ExtraAddons/WeaveScope`、`dashboard`、`efk`，`k8s/addons/metric-server`）
+- `k8s/archived/**`（及旧路径跳转说明：`k8s/ExtraAddons/WeaveScope`、`dashboard`、`efk`，`k8s/addons/metrics-server`）
 - 任何恢复 `anonymous-proxy-rbac` / 匿名 `cluster-admin` 的清单
 
 新集群请优先阅读 Wiki [INFRA-01](https://github.com/a307582707/TomYang/wiki/INFRA-01-本仓HA控制面与节点接入) 与 `examples/current/`。

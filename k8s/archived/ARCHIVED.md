@@ -2,7 +2,7 @@
 
 **状态: 禁止直接部署到生产或共享集群。**
 
-本目录仅保留教学 / 反例 / 迁移对照价值。路径自 `k8s/ExtraAddons/*` 与 `k8s/addons/metric-server` 迁入，清单正文未删改。
+本目录仅保留教学 / 反例 / 迁移对照价值。路径自 `k8s/ExtraAddons/*` 与 `k8s/addons/metrics-server` 迁入，清单正文未删改。
 
 ## 归档内容
 
@@ -10,7 +10,8 @@
 |------|------|
 | `WeaveScope/` | privileged、hostPID/hostNetwork、Docker socket；项目停更 |
 | `dashboard/` | Dashboard v1.8.3 EOL；曾含匿名代理 + `cluster-admin`（该 RBAC 文件已删除，见下） |
-| `metric-server/` | 旧版本；含 `--deprecated-kubelet-completely-insecure` 等不安全抓取 |
+| `metrics-server/` | 旧版本；含 `--deprecated-kubelet-completely-insecure` 等不安全抓取 |
+| `kube-dns/` | kube-dns EOL；由 CoreDNS 取代 |
 | `efk/` | ES/Kibana 6.2 EOL；默认 emptyDir、特权容器等历史假设 |
 
 ## 已删除（不可恢复为推荐项）

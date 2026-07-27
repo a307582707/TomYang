@@ -1,8 +1,16 @@
 # Task 2 — 现代 Kubernetes 兼容性分析（逐文件迁移矩阵）
 
-**分支:** `audit/k8s-compatibility`  
+**分支:** `audit/k8s-compatibility`（后续增强：`audit/compat-matrix-v2`）  
 **原则:** 只输出分析与迁移建议，**不批量修改**有运行时风险的历史清单。  
 **基线仓库:** Kubernetes ~1.11 / etcd 3.3 / Calico 3.1 / CoreDNS 1.2 时代手工搭建归档。
+
+**语义约定（勿混淆）：**
+
+| 标签 | 含义 |
+|------|------|
+| **1.11 可用** | 在历史 Kubernetes 1.11 参考拓扑上可按文档运行（仍可能不安全或 EOL） |
+| **现代已废弃** | 在较新版本仍可能 apply/运行，但发出 deprecation 警告；**不等于不可运行** |
+| **现代已移除** | 目标 API server 拒绝该 `apiVersion`；必须改写后才能 apply |
 
 ## 1. 总览
 
@@ -17,30 +25,36 @@
 | cgroup | `cgroupDriver: cgroupfs` | 与 runtime 一致的 `systemd` | 混用导致 Evicted/不稳定 |
 | RBAC | 大量 `v1beta1` | `rbac.authorization.k8s.io/v1` | beta 已移除 |
 | 审计/加密 | `--admission-control`、`experimental-encryption-provider-config`、`aescbc` | `--enable-admission-plugins`、`--encryption-provider-config`、受支持 provider | 参数更名 |
+| 镜像仓库 | 多处 `registry.cn-hangzhou.aliyuncs.com/google_containers`、`quay.io`、`docker.io` | 私有/镜像代理 + 钉扎 digest | 外网依赖与标签漂移 |
 
-## 2. 已废弃 / 移除的 API（仓库扫描）
+## 2. API 生命周期：移除版本与替代（仓库扫描）
 
-| API | 状态（相对现代 K8s） | 出现文件数（约） | 迁移动作 |
-|-----|----------------------|------------------|----------|
-| `extensions/v1beta1` | 已移除 | DaemonSet/Deployment/Ingress 多处 | → `apps/v1` 或 `networking.k8s.io/v1` |
-| `apps/v1beta1` / `apps/v1beta2` | 已移除 | Calico、Dashboard、Grafana、Operator 等 | → `apps/v1` |
-| `rbac.authorization.k8s.io/v1beta1` | 已移除 | Calico、CoreDNS、Flannel、Ingress、external-dns 等 | → `v1` |
-| `apiregistration.k8s.io/v1beta1` | 已移除 | metrics-server | → `v1` |
-| `apiextensions.k8s.io/v1beta1` | 已移除 | Calico CRD | → `v1`（schema 必填） |
+| API | 1.11 可用 | 现代状态 | 约移除版本 | 推荐替代 | 本仓出现文件（路径） |
+|-----|-----------|----------|------------|----------|----------------------|
+| `extensions/v1beta1`（Deploy/DS/Ingress 等） | 是 | **已移除** | Ingress：1.22；多数工作负载更早迁出 extensions | 工作负载 → `apps/v1`；Ingress → `networking.k8s.io/v1` | `k8s/addons/calico/v3.1/calico.yml`、`calicoctl.yml`；`k8s/addons/coredns/coredns.yml`；`k8s/addons/flannel/kube-flannel.yml`；`k8s/addons/kube-proxy/kube-proxy.yml`；`k8s/addons/Kubedns/kubedns.yml`；`k8s/addons/metric-server/metrics-server.yml`、`metrics-server-1.12+.yml`；`k8s/apps/nginx/nginx-ing.yml`；`k8s/ExtraAddons/ingress-controller/ingress-controller.yml`；`k8s/ExtraAddons/external-dns/coredns/coredns-dp.yml`、`etcd-dp.yml`；`k8s/ExtraAddons/prometheus/grafana/grafana-ing.yml`、`prometheus/prometheus-ing.yml`；`k8s/ExtraAddons/WeaveScope/scope.yml` |
+| `apps/v1beta1` | 是 | **已移除** | 1.16 | `apps/v1` | `k8s/addons/calico/v3.1/calico.yml` |
+| `apps/v1beta2` | 是 | **已移除** | 1.16 | `apps/v1` | `k8s/ExtraAddons/dashboard/kubernetes-dashboard.yml`；`prometheus/grafana/grafana-dp.yml`；`prometheus/kube-state-metrics/kube-state-metrics-dp.yml`；`prometheus/node-exporter/node-exporter-ds.yml`；`prometheus/operator/operator.yml` |
+| `rbac.authorization.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `rbac.authorization.k8s.io/v1` | `k8s/addons/calico/v3.1/rbac-kdd.yml`、`calicoctl.yml`；`coredns/coredns.yml`；`flannel/kube-flannel.yml`；`kube-proxy/kube-proxy.yml`；`metric-server/*.yml`；`ExtraAddons/ingress-controller/ingress-controller-rbac.yml`；`ExtraAddons/external-dns/external-dns/external-dns-rbac.yml` |
+| `apiregistration.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `apiregistration.k8s.io/v1` | `k8s/addons/metric-server/metrics-server.yml`、`metrics-server-1.12+.yml` |
+| `apiextensions.k8s.io/v1beta1` | 是 | **已移除** | 1.22 | `apiextensions.k8s.io/v1`（需 `openAPIV3Schema`） | `k8s/addons/calico/v3.1/calico.yml` |
+| `audit.k8s.io/v1beta1` | 是 | **已废弃→移除路径** | 策略 API 随版本演进；1.24+ 以 `audit.k8s.io/v1` 为准 | `audit.k8s.io/v1` | `k8s/master/audit/policy.yml` |
+| `monitoring.coreos.com/v1` | 取决于当时 Operator | **未进上游核心**；随 Operator 版本变化 | N/A（CRD） | 现行 kube-prometheus-stack CRD | `k8s/ExtraAddons/prometheus/**` 下 Prometheus/Alertmanager/ServiceMonitor/PrometheusRule |
+| `apps/v1` / `v1` / `rbac.../v1` | 是（部分文件已现代化） | 现行 | — | 保持 | 如 `k8s/apps/nginx/nginx-dp.yml`、多数 Secret/Service、部分 RBAC |
+
+> 说明：表中「已移除」指**现代默认 API server**；在 1.11 上这些 beta API 仍属「1.11 可用」。不要把「已废弃」写成「清单已损坏」。
 
 ## 3. 控制面 / kubelet 参数差异
 
-| 参数 / 配置 | 位置 | 问题 | 迁移 |
-|-------------|------|------|------|
-| `--insecure-port=0` | apiserver 清单/systemd | 仍出现在旧模板；不安全端口已移除 | 删除相关项，只保留 secure port |
-| `--admission-control=...,Initializers,...` | apiserver | `Initializers` 已移除；旗标更名 | `--enable-admission-plugins` / `--disable-admission-plugins` |
-| `--experimental-encryption-provider-config` | apiserver | 实验旗标更名 | `--encryption-provider-config` |
-| `--allow-privileged=true` | apiserver / kubelet drop-in | 行为变化，默认模型不同 | 按 Pod Security / 策略收敛 |
-| `--network-plugin=cni` | kubelet systemd | dockershim/网络插件旗标过时 | CRI + CNI 由 runtime/CNI 管理 |
-| `readOnlyPort: 10255` | `kubelet-conf.yml` | 只读端口默认关闭/移除 | 设为 `0`，用鉴权 10250 |
-| `cgroupDriver: cgroupfs` | kubelet-conf | 与现代 containerd systemd 驱动常冲突 | 与 runtime 对齐为 `systemd` |
-| metrics-server `--deprecated-kubelet-completely-insecure` | metrics-server-1.12+ | 跳过 TLS/鉴权 | 删除；配置 kubelet 鉴权抓取 |
-| `--failSwapOn: true` | kubelet-conf | 仍常见 | 可保留；确认节点无 swap |
+| 参数 / 配置 | 位置 | 1.11 语义 | 现代问题 | 迁移 |
+|-------------|------|-----------|----------|------|
+| `--insecure-port=0` | `k8s/master/manifests/kube-apiserver.yml` 等 | 显式关闭不安全端口 | 不安全端口已不存在 | 删除相关项，只保留 secure port（本仓对外 VIP **8443** → apiserver **5443**） |
+| `--admission-control=...,Initializers,...` | apiserver | 当时有效 | `Initializers` 移除；旗标更名 | `--enable-admission-plugins` / `--disable-admission-plugins` |
+| `--experimental-encryption-provider-config` | apiserver | 实验旗标 | 更名 | `--encryption-provider-config` |
+| `--allow-privileged=true` | apiserver / kubelet drop-in | 宽松特权 | 默认模型不同 | Pod Security / 策略收敛 |
+| `--network-plugin=cni` | `k8s/master/systemd/kubelet.service` 等 | Docker 时代 kubelet 网络插件 | dockershim 移除后旗标无意义 | CRI + CNI 由 runtime/CNI 管理 |
+| `readOnlyPort` | `k8s/master/etc/kubelet/kubelet-conf.yml`、`k8s/node/etc/kubelet/kubelet-conf.yml` | 历史为 `10255` | 现代默认关闭 | **本仓已在安全任务改为 `0`**；旧 metrics-server insecure 抓取随之失效 |
+| `cgroupDriver: cgroupfs` | 同上 kubelet-conf | 常见 | 与 containerd `SystemdCgroup` 常冲突 | 与 runtime 对齐 `systemd` |
+| metrics-server `--deprecated-kubelet-completely-insecure` | `k8s/addons/metric-server/metrics-server-1.12+.yml` | 省事 | 跳过 TLS/鉴权 | 删除；配置 kubelet 鉴权抓取 |
 
 ## 4. EOL 镜像与组件（摘录）
 
@@ -61,15 +75,17 @@
 | HAProxy 镜像 | `kairen/haproxy:1.7` | 过旧 | 官方/自建镜像并锁定版本 |
 | metrics-server | `v0.2.1` / `v0.3.1` | EOL | 现行 metrics-server |
 
-## 5. Docker → containerd
+## 5. Docker → containerd / CRI 与镜像仓库
 
-| 现状线索 | 影响 | 迁移要求 |
-|----------|------|----------|
-| kubelet `network-plugin=cni`、pause 镜像旧标签 | 假设 Docker 时代节点代理 | 安装 containerd、配置 CRI socket、去掉 dockershim 依赖 |
-| Weave Scope 挂载 Docker socket（见安全审计） | 强依赖 Docker | 删除或换工具 |
-| `crictl`/`nerdctl` 运维命令未出现在旧 Wiki 教程 | 排障手册需更新 | INFRA/Runbook 改用 CRI 命令 |
+| 现状线索（路径） | 影响 | 迁移要求 |
+|------------------|------|----------|
+| kubelet `--network-plugin=cni`（`k8s/master/systemd/kubelet.service`、`k8s/node/systemd/kubelet.service`） | Docker/dockershim 时代假设 | 安装 containerd；`--container-runtime-endpoint=unix:///run/containerd/containerd.sock`；去掉 dockershim |
+| Weave Scope 挂载 `/var/run/docker.sock`（`k8s/ExtraAddons/WeaveScope/scope.yml`） | 强依赖 Docker | 删除或换工具（见安全 README） |
+| pause / 组件镜像多走 `registry.cn-hangzhou.aliyuncs.com/google_containers/*` | 外网与镜像源可用性 | 建私有仓库或统一 mirror；钉扎 digest |
+| `quay.io/coreos/*`、`quay.io/calico/*`、`docker.io/weaveworks/*`、`docker.elastic.co/*` | 多源拉取 | 同步到内网 registry；记录许可证与速率限制 |
+| 历史 Wiki/教程中的 `docker` 排障命令 | 运维习惯过时 | 改用 `crictl` / `nerdctl`（INFRA 手册） |
 
-**建议顺序:** 先新节点 containerd → 再切工作负载 → 最后退役 Docker 节点。
+**建议顺序:** 新节点 containerd → 切工作负载 → 退役 Docker 节点。**不要**在未换 runtime 前只改清单里的镜像名。
 
 ## 6. cgroupfs → systemd
 
@@ -77,7 +93,7 @@
 |------|------|------|
 | `k8s/master/etc/kubelet/kubelet-conf.yml` | `cgroupDriver: cgroupfs` | 改为 `systemd`，并与 containerd `SystemdCgroup = true` 一致 |
 | `k8s/node/etc/kubelet/kubelet-conf.yml` | 同上 | 同上 |
-| 运行时 | 未入库 containerd config | 新增示例到 `examples/`（后续任务），勿直接改生产旧清单冒充可用 |
+| 运行时 | 未入库 containerd config | 新增示例到 `examples/`（后续任务），**勿**直接改生产旧清单冒充现代可用 |
 
 ## 7. RBAC / Ingress / CRD / 审计差异摘要
 
@@ -100,8 +116,8 @@
 | `master/manifests/haproxy.yml` | — | haproxy:1.7 | M | 换镜像+配置校验 | 现行 HAProxy |
 | `master/manifests/keepalived.yml` | — | keepalived 1.3.9 | M | 复核检查脚本与 VIP | 现行 keepalived |
 | `master/systemd/*` | — | 旧旗标；与静态 Pod 双轨 | M | 文档收敛为一种方式 | INFRA-01 为准 |
-| `master/etc/kubelet/kubelet-conf.yml` | — | cgroupfs；readOnlyPort 10255 | H | 新 kubelet 配置 | systemd cgroup；只读端口 0 |
-| `node/etc/kubelet/kubelet-conf.yml` | — | 同上 | H | 同上 | 同上 |
+| `master/etc/kubelet/kubelet-conf.yml` | — | cgroupfs；只读端口已关 | H（对现代） | 新 kubelet 配置；**勿把本文件当 1.28 即用模板** | systemd cgroup；`readOnlyPort: 0`（已落实） |
+| `node/etc/kubelet/kubelet-conf.yml` | — | 同上 | H（对现代） | 同上 | 同上 |
 | `pki/*.json` | — | 结构仍可参考 | L | 保留模板；轮换算法/期限复核 | cfssl/cert-manager |
 | `addons/calico/v3.1/*` | extensions/apps beta；CRD v1beta1；rbac beta | Calico 3.1 | H | Skip 重建 | 现行 Calico |
 | `addons/flannel/*` | extensions；rbac beta | Flannel 0.10 | H | Skip 重建 | 现行 Flannel/其他 |
@@ -131,16 +147,19 @@
 - [x] 扫描 `k8s` 下 apiVersion / image / 关键旗标  
 - [x] 形成逐文件矩阵与 Docker/cgroup/RBAC 专节  
 - [x] **未**批量修改生产向清单  
+- [x] Task 15：补充移除版本、替代 API、路径级清单；区分 1.11 可用 / 废弃 / 移除  
 
 ## 风险说明
 
-矩阵中的「目标版本」为通用建议，需按海曦现网选定具体发行版后再定镜像标签。错误地对旧清单做半自动 API 改写可能导致「能 apply 但行为错误」。
+矩阵中的「目标版本」为通用建议，需按海曦现网选定具体发行版后再定镜像标签。错误地对旧清单做半自动 API 改写可能导致「能 apply 但行为错误」。  
+「已废弃」≠「不可运行」：在仍支持该 API 的小版本上可能仅告警。
 
 ## 未解决事项
 
-- 选定海曦现网目标 Kubernetes 小版本与 CNI 产品后，可将矩阵「目标形态」列固化为版本钉扎表（Task 9）。  
-- 具体安全项（匿名 Dashboard 等）见 Task 3。  
+- 选定海曦现网目标 Kubernetes 小版本与 CNI 产品后，可将矩阵「目标形态」列固化为版本钉扎表（见 `docs/MAINTENANCE.md`）。  
+- 具体安全项见 `docs/audits/k8s-security-report.md`。  
+- Prometheus Operator CRD 未入库：见可观测性完整性审计。
 
 ## 回滚方法
 
-本 PR 仅新增文档；关闭 PR 或删除 `docs/audits/k8s-compatibility-matrix.md` 即可。
+仅文档变更；`git revert` 相关提交即可。

@@ -9,7 +9,7 @@ ExecStart=/usr/local/bin/kube-scheduler \
       --logtostderr=true \
       --address=0.0.0.0 \
       --leader-elect=true \
-      --kubeconfig=/etc/kubernetes/scheduler.kubeconfig
+      --kubeconfig=/etc/kubernetes/scheduler.conf
 
 Restart=always
 RestartSec=10s

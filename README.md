@@ -42,3 +42,9 @@
 
 清单基于早期版本编写（apiserver `v1.11.1`、etcd `v3.3.9`、Calico `v3.1`），保留为自建流程与参数组织方式的参考。
 用于新集群时需要按目标版本核对镜像标签、API 版本与已废弃参数，不建议直接照搬到生产环境。
+
+## 维护与事实源
+
+- 组件台账与复查：[docs/MAINTENANCE.md](docs/MAINTENANCE.md)
+- 单一事实源速查：[docs/SSOT.md](docs/SSOT.md)
+- 审计报告：[docs/audits/](docs/audits/)

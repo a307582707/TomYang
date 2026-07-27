@@ -51,3 +51,20 @@
 ## 回滚方法
 
 关闭本 PR；或 `git revert` 合并提交。恢复 `anonymous-proxy-rbac.yml` **不推荐**。
+
+## Task 13 — 深度复核（2026-07-27）
+
+| 检查项 | 结论 |
+|--------|------|
+| Dashboard 匿名代理权限 | **通过**：`anonymous-proxy-rbac.yml` 已删除；仓库内无 `system:anonymous` 绑定残留 |
+| Dashboard `cluster-admin` | **通过**：随匿名代理清单删除；`kubernetes-dashboard.yml` 仅保留常规 RoleBinding，无 `cluster-admin` |
+| Grafana Secret 部署注入 | **通过**：改为 `stringData` 占位符；部署前需替换，不可把占位符当密码 |
+| Grafana 匿名登录 | **通过**：`GF_AUTH_ANONYMOUS_ENABLED=false` |
+| HAProxy 默认凭据 | **通过（由 PR #4）**：master 已为 `{{ HAPROXY_STATS_* }}`；本 PR rebase 后不再重复改该文件 |
+| kubelet `readOnlyPort` | **通过**：master/node 均为 `0`；匿名认证保持 `false` |
+| 破坏 1.11 历史语义 | **可接受**：关闭 10255 / 删匿名 RBAC 是安全硬化，未改 apiserver `5443` 拓扑；kubelet 文件本身已是 `v1beta1` 形态 |
+| README 历史 vs 生产 | **通过**：根 README 已声明早期版本参考；Dashboard/WeaveScope README 明确禁止生产使用 |
+
+### 合并决定
+
+**同意合并。** 剩余风险（metrics-server insecure、WeaveScope 目录仍在、Grafana 历史提交中的样例口令）已记入整改清单，不阻塞本 PR。

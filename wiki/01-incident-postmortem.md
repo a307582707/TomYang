@@ -95,7 +95,7 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
 
 ---
 
-## 4. 误判与纠正（这是复盘的精华）
+## 4. 误判与纠正
 
 | 阶段 | 当时判断 | 为什么错 | 正确信号 |
 |------|----------|----------|----------|
@@ -114,13 +114,13 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
    - 无强制日志轮转（应用自己写文件，又绕过 stdout）；
    - image GC 阈值偏高，layer 与日志叠加。
 
-贡献度（复盘用）：触发 40% / 防护缺失 60%。
+贡献度：触发 40% / 防护缺失 60%。
 
 ---
 
-## 6. 止血动作（可复用 Runbook）
+## 6. 止血动作（Runbook）
 
-**优先级：先恢复交易，再做漂亮清理。**
+**优先级：先恢复交易，再清理节点磁盘。**
 
 1. **扩容副本到健康节点**（避开 DiskPressure 节点）  
    ```bash
@@ -128,7 +128,7 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
    ```
 2. **批量清理高危目录**（先 dry-run 统计，再执行）  
    ```bash
-   # 示例：清理 7 天前的已终止 Pod 日志（按你们规范改）
+   # 清理超过 2 天的已终止 Pod 日志（按生产变更规范执行）
    find /var/log/pods -type f -mtime +2 -name '*.log' -print0 | xargs -0 -r rm -f
    crictl rmi --prune   # 谨慎：确认无正在使用的特殊镜像依赖
    ```
@@ -149,11 +149,9 @@ kube_node_status_condition{condition="DiskPressure",status="true"}
 
 ---
 
-## 8. 摘要
+## 8. 结论
 
-> 大面积 NotReady，先看 `Conditions` 再看 CNI。  
-> DiskPressure 为 True 时，先救磁盘，再聊网络。  
-> 日志级别是变更项，不是调试习惯。
+大面积 NotReady 时，先看 `Conditions` 再怀疑 CNI。DiskPressure 为 True 时优先处理磁盘。日志级别属于变更项，生产环境不得长期停留在 DEBUG。
 
 ---
 

@@ -3,7 +3,7 @@
 生产故障复盘、架构取舍、容量成本、发布治理与平台建设记录。  
 内容来自真实排障与落地过程，含时间线、命令、指标与防再发动作。
 
-| 编号 | 主题 | 文章 | 案例 |
+| 编号 | 主题 | 文档 | 案例 |
 |------|------|------|------|
 | 01 | 生产事故复盘 | [01-incident-postmortem.md](./01-incident-postmortem.md) | kubelet 磁盘压力导致大面积 NotReady |
 | 02 | 架构决策 | [02-architecture-decisions.md](./02-architecture-decisions.md) | 暂缓全量 Istio；业务交付不全量 Helm |

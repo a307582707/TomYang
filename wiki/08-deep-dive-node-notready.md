@@ -1,14 +1,14 @@
 # Node NotReady 不要先重装：根因图谱与现场处置手册
 
-## 0. 怎么用这篇
+## 0. 使用说明
 
-遇到 NotReady 时：
+遇到 NotReady 时按以下顺序处理：
 
-1. 先看 **Node Conditions + kubelet 日志**（定大类）  
-2. 再进对应章节（磁盘 / 运行时 / 网络 / 证书 / 内核）  
-3. 用「确认命令」验证，用「止血」恢复，用「根治」立项  
+1. 查看 **Node Conditions + kubelet 日志**，确定大类  
+2. 进入对应章节（磁盘 / 运行时 / 网络 / 证书 / 内核）  
+3. 用确认命令验证，先止血恢复，再立项根治  
 
-不要一上来 `reboot` 或重装节点——那会毁掉证据。
+现场禁止直接 `reboot` 或重装节点，避免销毁排障证据。
 
 ---
 
@@ -22,7 +22,7 @@ journalctl -u kubelet -n 80 --no-pager
 df -h
 ```
 
-| 你看到的信号 | 优先怀疑 | 跳转 |
+| 现场信号 | 优先怀疑 | 跳转 |
 |--------------|----------|------|
 | `DiskPressure=True` / 根盘 100% | 磁盘 | §3 |
 | `MemoryPressure=True` / OOM | 内存与驱逐 | §4 |
@@ -226,7 +226,7 @@ kubectl -n kube-system get pod -l component=kube-apiserver
 
 ---
 
-## 9. 决策树（可放 Wiki 首页）
+## 9. 决策树
 
 ```text
 NotReady
@@ -261,10 +261,10 @@ NotReady
 
 ---
 
-## 12. 和本 Wiki 其他文章的关系
+## 12. 相关文档
 
-- 完整事故叙事：[01-incident-postmortem.md](./01-incident-postmortem.md)  
-- 成本侧的密度与 Request：[03-capacity-cost.md](./03-capacity-cost.md)  
-- 排查路径方法论：[04-observability.md](./04-observability.md)  
+- 完整事故复盘：[01-incident-postmortem.md](./01-incident-postmortem.md)  
+- 容量与 Request 治理：[03-capacity-cost.md](./03-capacity-cost.md)  
+- 慢请求排查路径：[04-observability.md](./04-observability.md)  
 
-把本文当作「字典」，把 01 当作「故事」，两者一起发，既有传播点又有长期价值。
+本文作为 NotReady 现场手册长期维护；与事故复盘文档互补。

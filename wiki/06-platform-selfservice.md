@@ -13,7 +13,7 @@
 
 ---
 
-## 1. 典型用户故事
+## 1. 业务场景
 
 > 业务研发小王要上线 `invoice` 服务：  
 > 需要命名空间、镜像拉取密钥、CPU 配额、Ingress 域名、日志采集、告警人。  
@@ -86,7 +86,7 @@ POST /api/v1/projects
 | Ops | namespace admin | 含 Job、探针、HPA |
 | Platform Admin | cluster 限定资源 | CRD/节点池，需双人审批 |
 
-禁止：给业务 `cluster-admin`「图省事」。
+禁止向业务账号授予 `cluster-admin`。
 
 ### 4.2 配额发放
 
@@ -162,7 +162,7 @@ tenants/finance/invoice/
 
 ---
 
-## 8. 落地路线（避免一上来做大而全）
+## 8. 落地路线
 
 1. **MVP**：只做「建 ns + 配额 + 基础 RBAC」  
 2. **V1**：标准 Web 模板 + GitOps  

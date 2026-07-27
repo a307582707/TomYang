@@ -40,11 +40,11 @@
 2. Token 存在 `GITHUB_TOKEN` / 自定义 secret，被一起打出。  
 3. Artifact 上传了 `build.log`，仓库 fork PR 场景下可见性被误配为 public。  
 
-不是「黑客攻破」，是 **工程习惯 + 可见性配置** 组合拳。
+根因不是外部入侵，而是调试习惯与产物可见性配置叠加导致。
 
 ---
 
-## 3. 应急检查清单（可直接当 Runbook）
+## 3. 应急检查清单（Runbook）
 
 ### 3.1 凭据
 
@@ -102,9 +102,9 @@ kubectl get deploy -A -o json | jq -r '.items[] | "\(.metadata.namespace)/\(.met
 
 ### 4.3 集群 RBAC 反面典型
 
-**错误**：给 CI 一个 `cluster-admin` kubeconfig 「什么都能部署」。  
+**错误做法**：CI 使用 `cluster-admin` kubeconfig。  
 
-**正确**：
+**正确做法**：
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

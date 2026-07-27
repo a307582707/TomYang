@@ -1,0 +1,12 @@
+# Snippet only — merge into your node containerd config.
+version = 2
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+  runtime_type = "io.containerd.runc.v2"
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+  SystemdCgroup = true
+
+# Optional: private registry mirror
+# [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+#   endpoint = ["https://{{ REGISTRY_MIRROR }}"]

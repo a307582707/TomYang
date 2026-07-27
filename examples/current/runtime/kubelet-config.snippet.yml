@@ -1,0 +1,14 @@
+# Snippet only — align with your distro kubelet config.
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd
+readOnlyPort: 0
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    enabled: true
+authorization:
+  mode: Webhook
+# containerRuntimeEndpoint is commonly set via kubelet flags / drop-in:
+# --container-runtime-endpoint=unix:///run/containerd/containerd.sock

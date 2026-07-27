@@ -1,6 +1,6 @@
 # runtime — 节点运行时基线
 
-历史 `k8s/*/etc/kubelet/kubelet-conf.yml` 使用 `cgroupDriver: cgroupfs` 与 Docker 时代假设。  
+历史 `k8s/*/etc/kubelet/kubelet-conf.yml` 使用 `cgroupDriver: cgroupfs` 与 Docker 时代假设。
 现代节点请使用 **containerd（或 CRI-O）+ systemd cgroup**。
 
 ## 核对项

@@ -8,5 +8,5 @@
 
 ## 示例
 
-`networkpolicy-default-deny-ingress.yml`：命名空间级默认拒绝 Ingress（按需放行）。  
+`networkpolicy-default-deny-ingress.yml`：命名空间级默认拒绝 Ingress（按需放行）。
 部署前确认 CNI 支持 NetworkPolicy。

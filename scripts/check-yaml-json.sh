@@ -17,6 +17,8 @@ checked = 0
 for p in sorted(Path(".").rglob("*")):
     if ".git" in p.parts:
         continue
+    if "testdata" in p.parts:
+        continue
     if p.suffix.lower() in {".yml", ".yaml"}:
         checked += 1
         try:

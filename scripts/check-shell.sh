@@ -2,7 +2,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-mapfile -t files < <(find . -type f -name '*.sh' ! -path './.git/*' ! -name '.git-askpass.sh' ! -name 'vsphere.sh')
+mapfile -t files < <(find . -type f -name '*.sh' ! -path './.git/*' ! -path './scripts/testdata/*' ! -name '.git-askpass.sh' ! -name 'vsphere.sh')
 # keep only scripts whose first non-empty line looks like a shebang text
 text_files=()
 for f in "${files[@]}"; do

@@ -6,6 +6,7 @@ bash scripts/check-yaml-json.sh
 bash scripts/check-shell.sh
 bash scripts/check-secrets.sh
 bash scripts/test-check-secrets.sh
+bash scripts/test-static-checks.sh
 bash scripts/check-placeholders.sh
 bash scripts/check-deprecated-api.sh
 bash scripts/check-markdown-links.sh

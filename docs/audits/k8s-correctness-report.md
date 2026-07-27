@@ -23,7 +23,7 @@
 1. **双轨部署:** systemd apiserver 仍为 `--secure-port=6443`，静态 Pod 为 `5443`（HAProxy VIP:8443 → 后端 5443）。同一节点勿双开。
 2. **Keepalived 两套设计:** 静态 Pod 用 `CHECK_PORT=2379`；宿主机 `check_haproxy.sh` 探测 `VIP:8443`。
 3. **仓库文件名 vs 运行时路径:** `encryption/config.yml` → `/etc/kubernetes/encryption.yml`；`audit/policy.yml` → `audit-policy.yml`（需拷贝时改名）。
-4. **目录拼写:** `ExtraAddons/prometheus/alertmanater/`（历史目录名，重命名会破坏引用，留给后续任务）。
+4. **目录拼写:** `ExtraAddons/prometheus/alertmanager/`（历史目录名，重命名会破坏引用，留给后续任务）。
 5. **无 selector 的 discovery Service:** kube-scheduler / controller-manager 的 Service 依赖手工 Endpoints。
 6. **内置 apiserver ServiceMonitor:** 依赖集群 `default/kubernetes` Service，仓库内无对应清单。
 
@@ -40,7 +40,7 @@
 
 ## 未解决事项
 
-- alertmanater 目录重命名  
+- alertmanager 目录重命名  
 - systemd 与静态 Pod 双轨文档化/收敛（见 Task 6/9）  
 - discovery Service 的 Endpoints 样例  
 - 现代 API / EOL 镜像（见 Task 2）  

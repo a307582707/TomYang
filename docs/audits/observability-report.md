@@ -16,7 +16,7 @@
 |------|---------------|-----------|--------|------|------|
 | Prometheus Operator | Service `http:8080` 与 SM 一致 | monitoring | 无 | SA/RBAC | 结构可用；版本 EOL |
 | Prometheus | `web:9090`；SM `prometheus:k8s` | monitoring | 视 CR storage 字段 | — | 需确认 CR 存储配置 |
-| Alertmanager | `web:9093`；SM `alertmanager:main` | monitoring | — | Secret 含模板化 slack/smtp 占位 | 目录名拼写 `alertmanater` |
+| Alertmanager | `web:9093`；SM `alertmanager:main` | monitoring | — | Secret 含模板化 slack/smtp 占位 | 目录名拼写 `alertmanager` |
 | Grafana | `http:3000` | monitoring | **emptyDir** | Secret | 重启丢面板数据；凭据见安全任务 |
 | kube-state-metrics | Service 标签 `k8s-app` + selector `app` 与 Pod 对齐 | monitoring | — | https + insecureSkipVerify | 可采集 |
 | node-exporter | 同上模式 | monitoring | hostPath 只读 | https + insecureSkipVerify | 可采集 |
@@ -30,7 +30,7 @@
 
 1. Grafana 生产应改 PVC；Alertmanager/Prometheus 存储策略需按 CR 明确。  
 2. 多处 `insecureSkipVerify` / metrics-server insecure（跨任务）。  
-3. `alertmanater` 目录重命名需全库替换引用。  
+3. `alertmanager` 目录重命名需全库替换引用。  
 4. discovery Endpoints 仅提供文档示例，未提交含真实 IP 的清单。  
 5. Operator/CRD 版本过旧，不建议在新集群直接 apply（见 Task 2）。
 

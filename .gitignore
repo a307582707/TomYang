@@ -4,3 +4,8 @@
 *.pem
 *.key
 id_rsa*
+
+# Task 31 render output
+.rendered/
+rendered/
+

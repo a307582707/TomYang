@@ -25,8 +25,8 @@
 | `k8s/master/resources/` | bootstrap token 与 kubelet / apiserver RBAC |
 | `k8s/master/audit/`、`k8s/master/encryption/` | 审计策略与 Secret 静态加密配置 |
 | `k8s/node/` | worker 节点 kubelet 配置与 systemd 单元 |
-| `k8s/addons/` | CNI（Calico / Flannel）、CoreDNS、kube-proxy、metrics-server |
-| `k8s/ExtraAddons/` | Prometheus 栈、EFK、Ingress、Dashboard、external-dns 等可选组件 |
+| `k8s/addons/` | CNI（Calico / Flannel）、CoreDNS、kube-proxy、metric-server |
+| `k8s/ExtraAddons/` | Prometheus 栈、EFK、ingress-controller、Dashboard、external-dns、Weave Scope 等可选组件 |
 | `k8s/apps/` | 示例应用清单（nginx Deployment / Service / Ingress） |
 | `pull.sh` | 通过国内镜像源同步 `gcr.io` / `k8s.gcr.io` / `quay.io` 镜像 |
 | `vsphere.sh` | vSphere 侧磁盘处理辅助脚本 |
@@ -34,6 +34,7 @@
 ## 使用说明
 
 清单中的占位符（如 `{{ VIP }}`、`{{ etcd_servers }}`、`{TOKEN_ID}`）需按实际环境替换后再应用。
+不要直接应用 `k8s/ExtraAddons/dashboard/anonymous-proxy-rbac.yml`：该历史清单向匿名用户授予 Dashboard 代理权限，并将 Dashboard 绑定到 `cluster-admin`。
 
 搭建顺序、证书签发与验收命令见
 [本仓 HA 控制面与节点接入](https://github.com/a307582707/TomYang/wiki/INFRA-01-本仓HA控制面与节点接入)。
@@ -42,3 +43,4 @@
 
 清单基于早期版本编写（apiserver `v1.11.1`、etcd `v3.3.9`、Calico `v3.1`），保留为自建流程与参数组织方式的参考。
 用于新集群时需要按目标版本核对镜像标签、API 版本与已废弃参数，不建议直接照搬到生产环境。
+迁移前请先阅读 [兼容性与安全基线](COMPATIBILITY.md)。

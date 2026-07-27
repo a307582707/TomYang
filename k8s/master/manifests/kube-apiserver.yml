@@ -10,7 +10,7 @@ metadata:
   namespace: kube-system
 spec:
   hostNetwork: true
-  containers :
+  containers:
   - name: kube-apiserver
     image: registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver-amd64:v1.11.1
     command:
@@ -57,7 +57,7 @@ spec:
       httpGet:
         host: 127.0.0.1
         path: /healthz
-        port: 6443
+        port: 5443
         scheme: HTTPS
       initialDelaySeconds: 15
       timeoutSeconds: 15

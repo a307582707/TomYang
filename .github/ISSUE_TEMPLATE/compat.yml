@@ -1,0 +1,12 @@
+name: 兼容性问题
+description: 与现代 Kubernetes / 运行时兼容
+title: "[兼容] "
+labels: ["compatibility"]
+body:
+  - type: input
+    id: k8sver
+    attributes: { label: 目标 Kubernetes 版本（若已知） }
+  - type: textarea
+    id: detail
+    attributes: { label: 现象与路径 }
+    validations: { required: true }

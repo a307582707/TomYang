@@ -1,0 +1,47 @@
+# 放行 Grafana → 数据源（如 Prometheus HTTP API）；标签通用占位
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-grafana-to-datasource
+  namespace: "{{ DATASOURCE_NAMESPACE }}"
+spec:
+  podSelector:
+    matchLabels:
+      "{{ DATASOURCE_POD_LABEL_KEY }}": "{{ DATASOURCE_POD_LABEL_VALUE }}"
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          "{{ GRAFANA_NS_LABEL_KEY }}": "{{ GRAFANA_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          "{{ GRAFANA_POD_LABEL_KEY }}": "{{ GRAFANA_POD_LABEL_VALUE }}"
+    ports:
+    - protocol: TCP
+      port: "{{ DATASOURCE_PORT }}"
+---
+# 可选：Grafana 所在命名空间的 Egress（若该 NS 也启用了默认拒绝）
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-grafana-egress-to-datasource
+  namespace: "{{ GRAFANA_NAMESPACE }}"
+spec:
+  podSelector:
+    matchLabels:
+      "{{ GRAFANA_POD_LABEL_KEY }}": "{{ GRAFANA_POD_LABEL_VALUE }}"
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          "{{ DATASOURCE_NS_LABEL_KEY }}": "{{ DATASOURCE_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          "{{ DATASOURCE_POD_LABEL_KEY }}": "{{ DATASOURCE_POD_LABEL_VALUE }}"
+    ports:
+    - protocol: TCP
+      port: "{{ DATASOURCE_PORT }}"

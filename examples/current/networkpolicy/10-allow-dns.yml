@@ -1,0 +1,25 @@
+# 放行到集群 DNS（本仓 CoreDNS 以 Service 名 kube-dns 暴露，标签 k8s-app: kube-dns）
+# 参见 k8s/addons/coredns/coredns.yml（clusterIP 教材值为 10.96.0.10）
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: "{{ TARGET_NAMESPACE }}"
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          # kube-system 是否带此标签以现网为准；无标签时改用 ipBlock 指向 DNS Service CIDR（现网定义）
+          "{{ KUBE_SYSTEM_NS_LABEL_KEY }}": "{{ KUBE_SYSTEM_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53

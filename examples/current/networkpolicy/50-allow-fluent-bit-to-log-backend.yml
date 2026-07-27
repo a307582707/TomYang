@@ -1,0 +1,47 @@
+# 放行 fluent-bit → 日志后端（通用）；本仓旧 EFK 已在 k8s/archived/efk/，禁止部署
+# 后端可为现网 Loki / ES / HTTP 等，端口与标签现网定义
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-fluent-bit-to-log-backend
+  namespace: "{{ LOG_BACKEND_NAMESPACE }}"
+spec:
+  podSelector:
+    matchLabels:
+      "{{ LOG_BACKEND_POD_LABEL_KEY }}": "{{ LOG_BACKEND_POD_LABEL_VALUE }}"
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          "{{ FLUENT_BIT_NS_LABEL_KEY }}": "{{ FLUENT_BIT_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          "{{ FLUENT_BIT_POD_LABEL_KEY }}": "{{ FLUENT_BIT_POD_LABEL_VALUE }}"
+    ports:
+    - protocol: TCP
+      port: "{{ LOG_BACKEND_PORT }}"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-fluent-bit-egress-to-log-backend
+  namespace: "{{ FLUENT_BIT_NAMESPACE }}"
+spec:
+  podSelector:
+    matchLabels:
+      "{{ FLUENT_BIT_POD_LABEL_KEY }}": "{{ FLUENT_BIT_POD_LABEL_VALUE }}"
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          "{{ LOG_BACKEND_NS_LABEL_KEY }}": "{{ LOG_BACKEND_NS_LABEL_VALUE }}"
+      podSelector:
+        matchLabels:
+          "{{ LOG_BACKEND_POD_LABEL_KEY }}": "{{ LOG_BACKEND_POD_LABEL_VALUE }}"
+    ports:
+    - protocol: TCP
+      port: "{{ LOG_BACKEND_PORT }}"

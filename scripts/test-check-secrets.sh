@@ -8,7 +8,8 @@ SCAN="$ROOT/scripts/check-secrets.sh"
 
 RSA_BEGIN="BEGIN RSA ""PRIVATE KEY"
 SSH_BEGIN="BEGIN OPENSSH ""PRIVATE KEY"
-PATTERN="admin:admin|${RSA_BEGIN}|${SSH_BEGIN}|ghp_[0-9A-Za-z]{20,}|github_pat_[0-9A-Za-z_]{20,}"
+PAT_ADMIN='admin'':''admin'
+PATTERN="${PAT_ADMIN}|${RSA_BEGIN}|${SSH_BEGIN}|ghp_[0-9A-Za-z]{20,}|github_pat_[0-9A-Za-z_]{20,}"
 
 pass=0
 fail=0
@@ -38,7 +39,6 @@ assert_match_file "fake_admin_admin" scripts/testdata/secrets/bad_token/haproxy-
 assert_match_file "fake_rsa_header" scripts/testdata/secrets/bad_key/id_rsa.sample
 assert_no_match_file "clean_sample" scripts/testdata/secrets/clean/ok.env.sample
 
-# Detector + test harness must not false-positive when production scanner runs
 if bash "$SCAN" >/tmp/secrets-scan.out 2>&1; then
   echo "PASS scanner_clean_repo"
   pass=$((pass+1))
@@ -48,7 +48,6 @@ else
   fail=$((fail+1))
 fi
 
-# Assembled pattern must still detect a real-looking header in fixtures
 assert_no_match_file "detector_script_no_full_literal" scripts/check-secrets.sh
 assert_no_match_file "test_script_no_full_literal" scripts/test-check-secrets.sh
 

@@ -8,7 +8,7 @@ metadata:
 spec:
   type: LoadBalancer
   externalIPs:
-  - {{ INGRESS_VIP }}
+  - "{{ INGRESS_VIP }}"
   ports:
   - port: 80
     targetPort: 80

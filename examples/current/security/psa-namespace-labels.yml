@@ -1,0 +1,16 @@
+# PSA 标签命名空间示例（Task 66）
+# 按现网策略选用 enforce/audit/warn；勿与历史特权 CNI DaemonSet 命名空间混用。
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ APP_NAMESPACE }}"
+  labels:
+    app.kubernetes.io/part-of: examples-current
+    pod-security.kubernetes.io/enforce: "{{ PSA_ENFORCE }}"
+    pod-security.kubernetes.io/enforce-version: "{{ PSA_VERSION }}"
+    pod-security.kubernetes.io/audit: "{{ PSA_AUDIT }}"
+    pod-security.kubernetes.io/audit-version: "{{ PSA_VERSION }}"
+    pod-security.kubernetes.io/warn: "{{ PSA_WARN }}"
+    pod-security.kubernetes.io/warn-version: "{{ PSA_VERSION }}"
+# 建议 Lab：enforce=baseline 或 restricted；{{ PSA_VERSION }} 可为 v1.28 或发行版允许的 latest
+# 特权组件单独命名空间并文档化例外

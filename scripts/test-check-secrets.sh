@@ -34,6 +34,7 @@ assert_no_match_file() {
 }
 
 assert_match_file "fake_ghp_token" scripts/testdata/secrets/bad_token/leak.env.sample
+assert_match_file "fake_admin_admin" scripts/testdata/secrets/bad_token/haproxy-default.sample
 assert_match_file "fake_rsa_header" scripts/testdata/secrets/bad_key/id_rsa.sample
 assert_no_match_file "clean_sample" scripts/testdata/secrets/clean/ok.env.sample
 

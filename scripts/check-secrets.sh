@@ -7,7 +7,7 @@ cd "$ROOT"
 
 RSA_BEGIN="BEGIN RSA ""PRIVATE KEY"
 SSH_BEGIN="BEGIN OPENSSH ""PRIVATE KEY"
-PAT_ADMIN='admin:admin'
+PAT_ADMIN='admin'':''admin'
 PAT_GHP='ghp_[0-9A-Za-z]{20,}'
 PAT_PAT='github_pat_[0-9A-Za-z_]{20,}'
 PATTERN="${PAT_ADMIN}|${RSA_BEGIN}|${SSH_BEGIN}|${PAT_GHP}|${PAT_PAT}"

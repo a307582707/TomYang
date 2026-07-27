@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 # Scan audited paths for obvious leaked credentials.
-# Patterns are assembled so this file itself does not contain a full match.
+# Marker strings are assembled so detector/test scripts do not self-match.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-# Split markers so git-grep on this script does not self-match.
-RSA_BEGIN="BEGIN RSA PRIVATE KEY"
-SSH_BEGIN="BEGIN OPENSSH PRIVATE KEY"
+RSA_BEGIN="BEGIN RSA ""PRIVATE KEY"
+SSH_BEGIN="BEGIN OPENSSH ""PRIVATE KEY"
 PAT_ADMIN='admin:admin'
 PAT_GHP='ghp_[0-9A-Za-z]{20,}'
 PAT_PAT='github_pat_[0-9A-Za-z_]{20,}'
 PATTERN="${PAT_ADMIN}|${RSA_BEGIN}|${SSH_BEGIN}|${PAT_GHP}|${PAT_PAT}"
 
-# Only audit content/config dirs; exclude this detector and unit fixtures.
 PATHSPECS=(
   'k8s'
   'examples'
@@ -26,6 +24,7 @@ PATHSPECS=(
   ':(glob)*.conf'
   ':(glob)*.service'
   ':!scripts/check-secrets.sh'
+  ':!scripts/test-check-secrets.sh'
   ':!scripts/testdata/**'
   ':!.env'
   ':!**/*.md'

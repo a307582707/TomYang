@@ -1,0 +1,27 @@
+# Example only — replace CONTROL_PLANE_NODE_IP before apply.
+# Uses documentation address 203.0.113.10 so accidental apply is obvious in REVIEW.
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kube-scheduler-prometheus-discovery
+  namespace: kube-system
+subsets:
+- addresses:
+  - ip: "203.0.113.10" # replace with real control-plane node IP
+  ports:
+  - name: http-metrics
+    port: 10251
+    protocol: TCP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kube-controller-manager-prometheus-discovery
+  namespace: kube-system
+subsets:
+- addresses:
+  - ip: "203.0.113.10" # replace with real control-plane node IP
+  ports:
+  - name: http-metrics
+    port: 10252
+    protocol: TCP

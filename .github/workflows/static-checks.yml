@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -20,4 +22,11 @@ jobs:
         run: bash scripts/run-static-checks.sh
       - name: PR whitespace
         if: github.event_name == 'pull_request'
-        run: git fetch origin "${{ github.base_ref }}" && git diff --check "origin/${{ github.base_ref }}"...HEAD
+        run: |
+          git fetch --no-tags origin "${{ github.base_ref }}"
+          base="origin/${{ github.base_ref }}"
+          if ! git merge-base --is-ancestor "$base" HEAD 2>/dev/null && ! git merge-base "$base" HEAD >/dev/null 2>&1; then
+            echo "No merge base with $base; skipping three-dot whitespace check"
+            exit 0
+          fi
+          git diff --check "${base}...HEAD"

@@ -1,0 +1,431 @@
+[
+  {
+    "placeholder": "{{ ALERTMANAGER_ALERT_EMAIL }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "邮箱格式或占位符保留至渲染",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_SLACK_API_URL }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_SLACK_CHANNEL }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_SMTP_FROM }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_SMTP_PASSWORD }}",
+    "format": "mustache",
+    "sensitive": true,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_SMTP_SMARTHOST }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_SMTP_USER }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ DEMO_WEB_HOST }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/ingress/demo-web-ingress.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{{ DEMO_WEB_IMAGE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/apps/demo-web.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "镜像引用"
+  },
+  {
+    "placeholder": "{{ ENCRYPT_SECRET }}",
+    "format": "mustache",
+    "sensitive": true,
+    "files": [
+      "k8s/master/encryption/config.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
+    "placeholder": "{{ GRAFANA_ADMIN_PASSWORD }}",
+    "format": "mustache",
+    "sensitive": true,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
+    "placeholder": "{{ GRAFANA_ADMIN_USER }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ HAPROXY_STATS_PASSWORD }}",
+    "format": "mustache",
+    "sensitive": true,
+    "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
+    "placeholder": "{{ HAPROXY_STATS_USER }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ INGRESS_CLASS_NAME }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/ingress/demo-web-ingress.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ INGRESS_VIP }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/external-dns/coredns/coredns-svc-tcp.yml",
+      "k8s/ExtraAddons/external-dns/coredns/coredns-svc-udp.yml",
+      "k8s/ExtraAddons/ingress-controller/ingress-controller-svc.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "VIP / 入口地址"
+  },
+  {
+    "placeholder": "{{ PLACEHOLDER }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/README.md"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ REGISTRY_MIRROR }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/runtime/containerd-config.toml.snippet"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ TARGET_NAMESPACE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/security/networkpolicy-default-deny-ingress.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "Namespace 名"
+  },
+  {
+    "placeholder": "{{ VIP }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/keepalived/keepalived.conf",
+      "k8s/master/manifests/keepalived.yml",
+      "k8s/master/manifests/kube-apiserver.yml",
+      "k8s/master/systemd/kube-apiserver.service"
+    ],
+    "validation": "非空字符串",
+    "purpose": "VIP / 入口地址"
+  },
+  {
+    "placeholder": "{{ container }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ container_name }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ container_runtime }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/archived/efk/fluentd-es-cm.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ etcd_initial_cluster }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/etcd/config.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ etcd_servers }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/manifests/kube-apiserver.yml",
+      "k8s/master/systemd/kube-apiserver.service"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ interface }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/addons/calico/v3.1/calico.yml",
+      "k8s/addons/flannel/kube-flannel.yml",
+      "k8s/master/etc/keepalived/keepalived.conf",
+      "k8s/master/manifests/keepalived.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ labels.statefulset }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/prometheus/prometheus-rules.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ pod_name }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{Date}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/archived/WeaveScope/scope.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{K8SVersion}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/archived/WeaveScope/scope.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{KUBE_APISERVER}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/addons/kube-proxy/kube-proxy.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{container_name}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{cpu}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{device}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{namespace}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "Namespace 名"
+  },
+  {
+    "placeholder": "{{node}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{pod_name}}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/ExtraAddons/prometheus/grafana/grafana-dashboard-definitions.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{HOSTNAME}",
+    "format": "brace",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/etcd/config.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{KUBE_APISERVER}",
+    "format": "brace",
+    "sensitive": false,
+    "files": [
+      "k8s/addons/kube-proxy/kube-proxy.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{PUBLIC_IP}",
+    "format": "brace",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/etcd/config.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{TOKEN_ID}",
+    "format": "brace",
+    "sensitive": true,
+    "files": [
+      "k8s/master/resources/bootstrap-token-Secret.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
+    "placeholder": "{TOKEN_SECRET}",
+    "format": "brace",
+    "sensitive": true,
+    "files": [
+      "k8s/master/resources/bootstrap-token-Secret.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  }
+]

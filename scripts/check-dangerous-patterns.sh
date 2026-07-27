@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Fail if dangerous security patterns appear outside archived/ (or in recommended entry points).
-# Optional: parent may wire this into scripts/run-static-checks.sh.
+# Marker strings are assembled so this script does not self-match secrets scanners.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 fail=0
+PAT_ADMIN='admin'':''admin'
 ARCHIVED_OK=0
 if [[ -f k8s/archived/ARCHIVED.md ]]; then
   ARCHIVED_OK=1
@@ -43,7 +44,7 @@ scan_live_pattern() {
 }
 
 scan_live_pattern 'system:anonymous' 'system:anonymous'
-scan_live_pattern 'admin:admin' 'admin:admin'
+scan_live_pattern 'default-stats-auth' "$PAT_ADMIN"
 scan_live_pattern 'docker.sock' 'docker\.sock'
 scan_live_pattern 'readOnlyPort:10255' 'readOnlyPort:[[:space:]]*10255'
 scan_live_pattern 'deprecated-kubelet-completely-insecure' 'deprecated-kubelet-completely-insecure'
@@ -89,7 +90,7 @@ scan_examples_pattern() {
 }
 scan_examples_pattern 'system:anonymous' 'system:anonymous'
 scan_examples_pattern 'cluster-admin' 'name:[[:space:]]*cluster-admin'
-scan_examples_pattern 'admin:admin' 'admin:admin'
+scan_examples_pattern 'default-stats-auth' "$PAT_ADMIN"
 scan_examples_pattern 'docker.sock' 'docker\.sock'
 scan_examples_pattern 'readOnlyPort:10255' 'readOnlyPort:[[:space:]]*10255'
 scan_examples_pattern 'deprecated-kubelet-completely-insecure' 'deprecated-kubelet-completely-insecure'
@@ -101,7 +102,7 @@ FORBIDDEN_APPLY=(
   'anonymous-proxy'
   'deprecated-kubelet-completely-insecure'
   'docker.sock'
-  'admin:admin'
+  "$PAT_ADMIN"
 )
 for f in "${ENTRY_FILES[@]}"; do
   [[ -f "$f" ]] || continue

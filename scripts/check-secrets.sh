@@ -25,6 +25,7 @@ PATHSPECS=(
   ':(glob)*.service'
   ':!scripts/check-secrets.sh'
   ':!scripts/test-check-secrets.sh'
+  ':!scripts/check-dangerous-patterns.sh'
   ':!scripts/testdata/**'
   ':!.env'
   ':!**/*.md'

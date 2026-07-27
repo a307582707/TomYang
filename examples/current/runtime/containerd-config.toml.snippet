@@ -1,5 +1,16 @@
-# Snippet only — merge into your node containerd config.
+# Snippet only — merge into your node containerd config (containerd 1.6+/2.x 字段名可能略有差异).
+# 非完整生产文件；替换全部 {{ PLACEHOLDER }}。
+
 version = 2
+
+[plugins."io.containerd.grpc.v1.cri"]
+  sandbox_image = "{{ PAUSE_IMAGE }}"
+  stream_server_address = "127.0.0.1"
+  enable_tls_streaming = false
+
+[plugins."io.containerd.grpc.v1.cri".containerd]
+  default_runtime_name = "runc"
+  snapshotter = "overlayfs"
 
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
   runtime_type = "io.containerd.runc.v2"
@@ -7,6 +18,25 @@ version = 2
 [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
   SystemdCgroup = true
 
-# Optional: private registry mirror
+# Registry：mirror + 可选鉴权（密钥勿写入 Git）
+[plugins."io.containerd.grpc.v1.cri".registry]
+  config_path = "/etc/containerd/certs.d"
+
+# 旧式 mirrors 段（部分发行版仍用）；优先 certs.d hosts.toml
 # [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
 #   endpoint = ["https://{{ REGISTRY_MIRROR }}"]
+# [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{ PRIVATE_REGISTRY }}"]
+#   endpoint = ["https://{{ PRIVATE_REGISTRY }}"]
+
+# [plugins."io.containerd.grpc.v1.cri".registry.configs."{{ PRIVATE_REGISTRY }}".tls]
+#   insecure_skip_verify = false
+#   ca_file = "{{ REGISTRY_CA_FILE }}"
+
+# 可选：限制并发拉取
+[plugins."io.containerd.grpc.v1.cri".registry.headers]
+  # X-Example = ["value"]
+
+# Metrics（仅本机或管理网）
+[metrics]
+  address = "127.0.0.1:{{ CONTAINERD_METRICS_PORT }}"
+  grpc_histogram = false

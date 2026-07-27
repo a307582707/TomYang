@@ -1,14 +1,32 @@
-# Snippet only — align with your distro kubelet config.
+# Snippet only — align with your distro kubelet config drop-in / KubeletConfiguration.
+# 对照历史教材 cgroupfs+Docker：现网应使用 containerd + systemd。
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 cgroupDriver: systemd
 readOnlyPort: 0
+protectKernelDefaults: true
 authentication:
   anonymous:
     enabled: false
   webhook:
     enabled: true
+    cacheTTL: 2m
 authorization:
   mode: Webhook
-# containerRuntimeEndpoint is commonly set via kubelet flags / drop-in:
-# --container-runtime-endpoint=unix:///run/containerd/containerd.sock
+serverTLSBootstrap: true
+clusterDNS:
+- "{{ CLUSTER_DNS_IP }}"
+clusterDomain: cluster.local
+serializeImagePulls: false
+evictionHard:
+  memory.available: "100Mi"
+  nodefs.available: "10%"
+  imagefs.available: "15%"
+# TLS：由 bootstrap / 现网 PKI 颁发；勿关 webhook 鉴权来迁就旧 metrics-server
+# containerRuntimeEndpoint 常见于 kubelet 参数而非本文件：
+#   --container-runtime-endpoint=unix:///run/containerd/containerd.sock
+#   --runtime-cgroups=/system.slice/containerd.service
+# 可选：旋转证书与审计
+# tlsCertFile: "{{ KUBELET_CERT_FILE }}"
+# tlsPrivateKeyFile: "{{ KUBELET_KEY_FILE }}"
+# seccompDefault: true

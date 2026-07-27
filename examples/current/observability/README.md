@@ -2,6 +2,15 @@
 
 本目录**不**拷贝 `k8s/ExtraAddons/prometheus` 旧栈，也不包含归档的 metrics-server / EFK。
 
+## 骨架文件
+
+| 文件 | 说明 |
+|------|------|
+| `prometheus-skeleton.yml` | Deployment + Service + PVC（`{{ STORAGE_CLASS }}`） |
+| `grafana-skeleton.yml` | 同上；管理员口令仅 `secretKeyRef` |
+
+持久化设计见 `docs/audits/observability-persistence-design.md`。
+
 ## 推荐方向
 
 | 能力 | 建议 |

@@ -13,4 +13,5 @@ bash scripts/check-markdown-links.sh
 bash scripts/check-trailing-whitespace.sh
 bash scripts/check-repo-path-refs.sh
 bash scripts/check-archived-isolation.sh
+bash scripts/check-doc-quality.sh
 echo "ALL STATIC CHECKS PASSED"

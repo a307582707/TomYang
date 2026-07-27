@@ -1,0 +1,25 @@
+name: 清单错误
+description: 历史或现代 Kubernetes 清单问题
+title: "[清单] "
+labels: ["bug", "manifest"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: 影响区域
+      options: [k8s/历史清单, k8s/archived, examples/current, 不确定]
+    validations: { required: true }
+  - type: textarea
+    id: path
+    attributes: { label: 文件路径, placeholder: k8s/... }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: 期望行为 }
+  - type: textarea
+    id: actual
+    attributes: { label: 实际行为 }
+  - type: markdown
+    attributes:
+      value: |
+        **请勿**粘贴 Token、私钥、`.env` 或生产地址。

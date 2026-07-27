@@ -1,0 +1,20 @@
+name: 安全问题
+description: 安全相关（请勿公开贴凭据或利用细节）
+title: "[安全] "
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 私下报告
+        请优先通过维护者私信 / 邮件报告，**不要**在公开 Issue 中粘贴凭据、私钥、完整漏洞利用或生产拓扑。
+        公开 Issue 仅用于跟踪非敏感的安全加固建议。
+  - type: textarea
+    id: summary
+    attributes: { label: 非敏感摘要 }
+    validations: { required: true }
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 初判严重性（可改）
+      options: [低, 中, 高, 未定]

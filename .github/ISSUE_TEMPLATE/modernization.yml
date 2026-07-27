@@ -1,0 +1,9 @@
+name: 现代化建议
+description: examples/current 或迁移建议
+title: "[现代化] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: proposal
+    attributes: { label: 建议内容 }
+    validations: { required: true }

@@ -1,0 +1,12 @@
+name: Wiki 链接问题
+description: Wiki 内链 / 锚点 / 与仓库路径不一致
+title: "[Wiki] "
+labels: ["documentation", "wiki"]
+body:
+  - type: input
+    id: page
+    attributes: { label: Wiki 页面 }
+  - type: textarea
+    id: detail
+    attributes: { label: 问题 }
+    validations: { required: true }

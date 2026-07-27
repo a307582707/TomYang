@@ -1,0 +1,12 @@
+name: 文档错误
+description: README / audits / 手册问题
+title: "[文档] "
+labels: ["documentation"]
+body:
+  - type: input
+    id: link
+    attributes: { label: 文档路径或 URL }
+  - type: textarea
+    id: detail
+    attributes: { label: 问题描述 }
+    validations: { required: true }

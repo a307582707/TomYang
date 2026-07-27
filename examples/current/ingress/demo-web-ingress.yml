@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-web
+  namespace: default
+  annotations:
+    # 按现网控制器调整；勿照搬 0.17 时代注解
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: "{{ INGRESS_CLASS_NAME }}"
+  rules:
+  - host: "{{ DEMO_WEB_HOST }}"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: demo-web
+            port:
+              name: http

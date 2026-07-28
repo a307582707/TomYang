@@ -20,4 +20,6 @@ bash scripts/check-kubeconform.sh
 bash scripts/test-kubeconform.sh
 bash scripts/check-wiki-links.sh
 bash scripts/test-wiki-links.sh
+bash scripts/check-image-inventory.sh
+bash scripts/test-image-inventory.sh
 echo "ALL STATIC CHECKS PASSED"

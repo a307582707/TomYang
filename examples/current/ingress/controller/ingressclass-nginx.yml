@@ -1,0 +1,9 @@
+# 可选：Helm 已创建 IngressClass 时可跳过。
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: "{{ INGRESS_CLASS_NAME }}"
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+spec:
+  controller: k8s.io/ingress-nginx

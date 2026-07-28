@@ -134,6 +134,8 @@ kubectl get cs 2>/dev/null || kubectl get --raw=/readyz?verbose
 
 ## 8. 演练模板（复制到变更单）
 
+完整记录模板、桌面样本、检查清单与 RPO/RTO 指引见 [`docs/drills/etcd-backup-restore-drill-record.md`](../drills/etcd-backup-restore-drill-record.md)。
+
 ```text
 演练编号: LAB-ETCD-YYYYMMDD
 环境: [ ] 单节点 lab  [ ] 多控制面 lab

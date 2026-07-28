@@ -9,6 +9,7 @@
 | `metrics-server-skeleton.yml` | metrics-server（apps/v1 + RBAC + APIService）；kubelet TLS 抓取，非 archived 拷贝 |
 | `prometheus-skeleton.yml` | Deployment + Service + PVC（`{{ STORAGE_CLASS }}`） |
 | `grafana-skeleton.yml` | 同上；管理员口令仅 `secretKeyRef` |
+| `monitoring-stack-skeleton/` | Prometheus Operator / kube-prometheus 最小安装文档 + ServiceMonitor / Alertmanager 占位 |
 
 持久化设计见 `docs/audits/observability-persistence-design.md`。
 

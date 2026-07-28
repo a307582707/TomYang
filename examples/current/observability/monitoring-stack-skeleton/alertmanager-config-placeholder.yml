@@ -1,0 +1,30 @@
+# Alertmanager 配置 Secret 占位（Task 78）— 渲染后 apply；非 ExtraAddons 拷贝
+apiVersion: v1
+kind: Secret
+metadata:
+  name: alertmanager-config
+  namespace: "{{ MONITORING_NAMESPACE }}"
+  labels:
+    app: alertmanager
+type: Opaque
+stringData:
+  alertmanager.yml: |
+    global:
+      smtp_smarthost: "{{ ALERTMANAGER_SMTP_SMARTHOST }}"
+      smtp_from: "{{ ALERTMANAGER_SMTP_FROM }}"
+      smtp_auth_username: "{{ ALERTMANAGER_SMTP_USER }}"
+      smtp_auth_password: "{{ ALERTMANAGER_SMTP_PASSWORD }}"
+    route:
+      receiver: default
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+    receivers:
+    - name: default
+      email_configs:
+      - to: "{{ ALERTMANAGER_ALERT_EMAIL }}"
+        send_resolved: true
+      slack_configs:
+      - api_url: "{{ ALERTMANAGER_SLACK_API_URL }}"
+        channel: "{{ ALERTMANAGER_SLACK_CHANNEL }}"
+        send_resolved: true

@@ -232,6 +232,16 @@
     "purpose": "VIP / 入口地址"
   },
   {
+    "placeholder": "{{ KUBE_PROMETHEUS_VERSION }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/monitoring-stack-skeleton/README.md"
+    ],
+    "validation": "git tag / release",
+    "purpose": "版本 pin"
+  },
+  {
     "placeholder": "{{ MASTER1_IP }}",
     "format": "mustache",
     "sensitive": false,
@@ -272,6 +282,17 @@
     "purpose": "镜像引用"
   },
   {
+    "placeholder": "{{ MONITORING_NAMESPACE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/monitoring-stack-skeleton/alertmanager-config-placeholder.yml",
+      "examples/current/observability/monitoring-stack-skeleton/servicemonitor-example.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "Namespace 名"
+  },
+  {
     "placeholder": "{{ PLACEHOLDER }}",
     "format": "mustache",
     "sensitive": false,
@@ -280,6 +301,16 @@
     ],
     "validation": "非空字符串",
     "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ PROMETHEUS_OPERATOR_VERSION }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/monitoring-stack-skeleton/README.md"
+    ],
+    "validation": "SemVer tag（如 v0.76.0）",
+    "purpose": "版本 pin"
   },
   {
     "placeholder": "{{ REGISTRY_MIRROR }}",

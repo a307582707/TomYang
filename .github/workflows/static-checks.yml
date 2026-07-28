@@ -3,6 +3,10 @@ on:
   push:
     branches: [master]
   pull_request:
+
+permissions:
+  contents: read
+
 jobs:
   checks:
     runs-on: ubuntu-latest

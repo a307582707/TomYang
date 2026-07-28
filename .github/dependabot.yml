@@ -1,0 +1,15 @@
+# Dependabot — GitHub Actions 依赖更新（Task 101）
+# 见 docs/audits/github-actions-failure-notification.md
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci
+    commit-message:
+      prefix: "ci(deps)"

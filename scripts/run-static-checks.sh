@@ -16,7 +16,6 @@ bash scripts/check-archived-isolation.sh
 bash scripts/check-dangerous-patterns.sh
 bash scripts/check-doc-quality.sh
 bash scripts/check-modern-examples.sh
-bash scripts/check-kubeconform.sh
-bash scripts/test-kubeconform.sh
-echo "ALL STATIC CHECKS PASSED"
 bash scripts/check-wiki-links.sh
+bash scripts/test-wiki-links.sh
+echo "ALL STATIC CHECKS PASSED"

@@ -66,8 +66,14 @@ for p in wiki.rglob("*"):
     pages[key] = p
     pages[key.replace(" ", "-")] = p
     pages[key.replace("-", " ")] = p
+    pages[unquote(key)] = p
+    pages[unquote(key).replace(" ", "-")] = p
 
-# Also index Home
+# Known false-positive patterns (warn only; never promoted to errors)
+IGNORE_WARN_SUBSTRINGS = (
+    "heuristic miss for Chinese anchor",
+)
+
 errors = []
 warnings = []
 checked = 0
@@ -84,7 +90,7 @@ repo_path_re = re.compile(
 
 def page_exists(name: str) -> bool:
     n = unquote(name.strip()).strip()
-    candidates = {n, n.replace(" ", "-"), n.replace("-", " ")}
+    candidates = {n, n.replace(" ", "-"), n.replace("-", " "), unquote(n)}
     for c in list(candidates):
         if c in pages:
             return True
@@ -182,10 +188,17 @@ print(f"wiki_pages={len(set(pages.values()))}")
 print(f"wiki_links_checked={checked}")
 print(f"repo_path_refs_checked={repo_path_checked}")
 for w in warnings:
-    print(f"WARN {w}")
+    if any(s in w for s in IGNORE_WARN_SUBSTRINGS):
+        print(f"IGNORE {w}")
+    else:
+        print(f"WARN {w}")
 if errors:
+    print("WIKI_LINK_ERRORS: wiki internal link check failed")
+    print(f"wiki_error_count={len(errors)}")
     print("ERRORS:")
-    print("\n".join(errors))
+    for i, e in enumerate(errors, 1):
+        print(f"  [{i}] {e}")
+    print("hint: fix wiki page name/anchor or add fixture under scripts/testdata/wiki-links/good/")
     sys.exit(1)
 print("wiki link check ok")
 PY

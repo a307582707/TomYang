@@ -170,11 +170,32 @@
     "purpose": "配置注入"
   },
   {
+    "placeholder": "{{ HAPROXY_MGMT_CIDR }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/security/haproxy-stats-hardening.md"
+    ],
+    "validation": "CIDR；例 10.0.0.0/24",
+    "purpose": "网段"
+  },
+  {
+    "placeholder": "{{ HAPROXY_STATS_BIND }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/security/haproxy-stats-hardening.md"
+    ],
+    "validation": "管理网 bind 地址；禁止真实生产 IP",
+    "purpose": "主机/网卡"
+  },
+  {
     "placeholder": "{{ HAPROXY_STATS_PASSWORD }}",
     "format": "mustache",
     "sensitive": true,
     "files": [
-      "k8s/master/etc/haproxy/haproxy.cfg"
+      "k8s/master/etc/haproxy/haproxy.cfg",
+      "examples/current/security/haproxy-stats-hardening.md"
     ],
     "validation": "仅经环境变量注入；长度≥1；禁止提交",
     "purpose": "凭据（敏感）"
@@ -184,7 +205,8 @@
     "format": "mustache",
     "sensitive": false,
     "files": [
-      "k8s/master/etc/haproxy/haproxy.cfg"
+      "k8s/master/etc/haproxy/haproxy.cfg",
+      "examples/current/security/haproxy-stats-hardening.md"
     ],
     "validation": "非空字符串",
     "purpose": "配置注入"

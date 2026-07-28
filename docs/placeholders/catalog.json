@@ -120,6 +120,36 @@
     "purpose": "配置注入"
   },
   {
+    "placeholder": "{{ ALERTMANAGER_CONFIG_SECRET }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/alertmanager-storage-skeleton.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "Secret 名"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_IMAGE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/alertmanager-storage-skeleton.yml"
+    ],
+    "validation": "非空字符串；推荐 digest 或固定 tag",
+    "purpose": "镜像引用"
+  },
+  {
+    "placeholder": "{{ ALERTMANAGER_PVC_SIZE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/alertmanager-storage-skeleton.yml"
+    ],
+    "validation": "Kubernetes 数量字符串（如 5Gi）",
+    "purpose": "PVC 容量"
+  },
+  {
     "placeholder": "{{ DEMO_WEB_HOST }}",
     "format": "mustache",
     "sensitive": false,
@@ -170,6 +200,26 @@
     "purpose": "配置注入"
   },
   {
+    "placeholder": "{{ GRAFANA_IMAGE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/grafana-skeleton.yml"
+    ],
+    "validation": "非空字符串；推荐 digest 或固定 tag",
+    "purpose": "镜像引用"
+  },
+  {
+    "placeholder": "{{ GRAFANA_PVC_SIZE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/grafana-skeleton.yml"
+    ],
+    "validation": "Kubernetes 数量字符串（如 5Gi）",
+    "purpose": "PVC 容量"
+  },
+  {
     "placeholder": "{{ HAPROXY_MGMT_CIDR }}",
     "format": "mustache",
     "sensitive": false,
@@ -184,9 +234,10 @@
     "format": "mustache",
     "sensitive": false,
     "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg",
       "examples/current/security/haproxy-stats-hardening.md"
     ],
-    "validation": "管理网 bind 地址；禁止真实生产 IP",
+    "validation": "管理网 bind 地址；默认 127.0.0.1；禁止真实生产 IP",
     "purpose": "主机/网卡"
   },
   {
@@ -313,6 +364,46 @@
     "purpose": "版本 pin"
   },
   {
+    "placeholder": "{{ PROMETHEUS_CONFIG_MAP }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/prometheus-skeleton.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "ConfigMap 名"
+  },
+  {
+    "placeholder": "{{ PROMETHEUS_IMAGE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/prometheus-skeleton.yml"
+    ],
+    "validation": "非空字符串；推荐 digest 或固定 tag",
+    "purpose": "镜像引用"
+  },
+  {
+    "placeholder": "{{ PROMETHEUS_PVC_SIZE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/prometheus-skeleton.yml"
+    ],
+    "validation": "Kubernetes 数量字符串（如 10Gi）",
+    "purpose": "PVC 容量"
+  },
+  {
+    "placeholder": "{{ PROMETHEUS_RETENTION }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/prometheus-skeleton.yml"
+    ],
+    "validation": "Prometheus duration（如 15d）",
+    "purpose": "TSDB 保留"
+  },
+  {
     "placeholder": "{{ REGISTRY_MIRROR }}",
     "format": "mustache",
     "sensitive": false,
@@ -321,6 +412,18 @@
     ],
     "validation": "非空字符串",
     "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{{ STORAGE_CLASS }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/alertmanager-storage-skeleton.yml",
+      "examples/current/observability/grafana-skeleton.yml",
+      "examples/current/observability/prometheus-skeleton.yml"
+    ],
+    "validation": "非空字符串；须集群存在",
+    "purpose": "StorageClass 名"
   },
   {
     "placeholder": "{{ TARGET_NAMESPACE }}",

@@ -1,0 +1,13 @@
+# StorageClass 占位说明（Task 98）— 非 apply 清单
+#
+# 本仓 PVC 骨架统一使用：
+#   storageClassName: "{{ STORAGE_CLASS }}"
+#
+# 实验集群请先确认可用 StorageClass：
+#   kubectl get storageclass
+#
+# 若无默认 SC，在 apply prometheus/grafana/alertmanager 骨架前：
+#   1. 选用现网块存储驱动创建的 StorageClass 名填入 {{ STORAGE_CLASS }}
+#   2. 或创建 Lab 用 SC（示例名 standard / local-path，以集群为准）
+#
+# 勿在此文件提交真实 cloud provider 参数；现网 SC 由平台组维护。

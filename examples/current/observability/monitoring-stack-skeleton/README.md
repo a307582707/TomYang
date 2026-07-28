@@ -62,9 +62,10 @@ Operator 取向注意：
 - Grafana admin 走 Secret / `{{ GRAFANA_ADMIN_USER }}` / `{{ GRAFANA_ADMIN_PASSWORD }}`，勿写明文。
 - 单副本 + RWO PVC；HA 见下文。
 
-## 5. Alertmanager 配置占位
+## 5. Alertmanager 配置与存储
 
-见 `alertmanager-config-placeholder.yml`：SMTP / Slack 字段均为 `{{ ALERTMANAGER_* }}` 占位，apply 前须渲染或改为 ExternalSecret。
+- **配置 Secret：** `alertmanager-config-placeholder.yml` — SMTP / Slack 字段均为 `{{ ALERTMANAGER_* }}` 占位，apply 前须渲染或改为 ExternalSecret。
+- **PVC 骨架（无 Operator）：** `../alertmanager-storage-skeleton.yml` — `storageClassName: "{{ STORAGE_CLASS }}"`，容量 `{{ ALERTMANAGER_PVC_SIZE }}`。
 
 ## 6. 单节点 vs HA
 

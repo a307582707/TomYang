@@ -1,9 +1,9 @@
 # Issue #1 处置记录 — Jenkins unexpected EOF
 
-**Issue:** [a307582707/TomYang#1](https://github.com/a307582707/TomYang/issues/1)  
-**标题:** kubernetes集群无法运行jenkins，报错：error: unexpected EOF  
-**创建:** 2019-01-09  
-**处置日期:** 2026-07-29  
+**Issue:** [a307582707/TomYang#1](https://github.com/a307582707/TomYang/issues/1)
+**标题:** kubernetes集群无法运行jenkins，报错：error: unexpected EOF
+**创建:** 2019-01-09
+**处置日期:** 2026-07-29
 **结论:** **关闭 — 过时且超出本仓范围**
 
 ## 背景摘要

@@ -36,7 +36,7 @@ checked=139
 yaml/json ok
 shellcheck not installed; bash -n only
 shell ok (23 files)
-scripts/quarterly/run-quarterly-review.sh:88:  echo "- \`scripts/check-secrets.sh\` + 回归测试：禁止 \`admin:admin\` 等默认凭据回灌"
+scripts/quarterly/run-quarterly-review.sh:88:  echo "- \`scripts/check-secrets.sh\` + 回归测试：禁止 \`admin[colon]admin\` 等默认凭据回灌"
 Potential secrets found
 ```
 
@@ -51,7 +51,7 @@ Potential secrets found
 ## 危险模式 / 密钥
 
 - `scripts/check-dangerous-patterns.sh`：工作区扫描（见 [`docs/audits/dangerous-patterns.md`](./dangerous-patterns.md)）
-- `scripts/check-secrets.sh` + 回归测试：禁止 `admin:admin` 等默认凭据回灌
+- `scripts/check-secrets.sh` + 回归测试：禁止 `admin[colon]admin` 等默认凭据回灌
 - Grafana / HAProxy stats 已改为占位符；Git 历史仍可能含旧样例 — 见 [`remaining-security-remediation.md`](./remaining-security-remediation.md)
 
 ## 镜像可用性（人工）

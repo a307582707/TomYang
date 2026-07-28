@@ -85,7 +85,7 @@ MD_LINKS=$(grep -E '^local_md_links_checked=' "$STATIC_LOG" | tail -1 | cut -d= 
   echo "## 危险模式 / 密钥"
   echo
   echo "- \`scripts/check-dangerous-patterns.sh\`：工作区扫描（见 [\`docs/audits/dangerous-patterns.md\`](./dangerous-patterns.md)）"
-  echo "- \`scripts/check-secrets.sh\` + 回归测试：禁止 \`admin:admin\` 等默认凭据回灌"
+  echo "- \`scripts/check-secrets.sh\` + 回归测试：禁止 \`admin[colon]admin\` 等默认凭据回灌"
   echo "- Grafana / HAProxy stats 已改为占位符；Git 历史仍可能含旧样例 — 见 [\`remaining-security-remediation.md\`](./remaining-security-remediation.md)"
   echo
   echo "## 镜像可用性（人工）"

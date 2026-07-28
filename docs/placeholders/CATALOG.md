@@ -23,13 +23,14 @@
 | `{{ GRAFANA_ADMIN_USER }}` | mustache | 否 | 配置注入 | `k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml` | 非空字符串 |
 | `{{ HAPROXY_MGMT_CIDR }}` | mustache | 否 | 网段 | `examples/current/security/haproxy-stats-hardening.md` | CIDR；例 10.0.0.0/24 |
 | `{{ HAPROXY_STATS_BIND }}` | mustache | 否 | 主机/网卡 | `examples/current/security/haproxy-stats-hardening.md` | 管理网 bind 地址；禁止真实生产 IP |
-| `{{ HAPROXY_STATS_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/master/etc/haproxy/haproxy.cfg`, `examples/current/security/haproxy-stats-hardening.md` | 仅经环境变量注入；长度≥1；禁止提交 |
-| `{{ HAPROXY_STATS_USER }}` | mustache | 否 | 配置注入 | `k8s/master/etc/haproxy/haproxy.cfg`, `examples/current/security/haproxy-stats-hardening.md` | 非空字符串 |
+| `{{ HAPROXY_STATS_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/master/etc/haproxy/haproxy.cfg` | 仅经环境变量注入；长度≥1；禁止提交 |
+| `{{ HAPROXY_STATS_USER }}` | mustache | 否 | 配置注入 | `k8s/master/etc/haproxy/haproxy.cfg` | 非空字符串 |
 | `{{ INGRESS_CLASS_NAME }}` | mustache | 否 | 配置注入 | `examples/current/ingress/demo-web-ingress.yml` | 非空字符串 |
 | `{{ INGRESS_VIP }}` | mustache | 否 | VIP / 入口地址 | `k8s/ExtraAddons/external-dns/coredns/coredns-svc-tcp.yml`, `k8s/ExtraAddons/external-dns/coredns/coredns-svc-udp.yml`, `k8s/ExtraAddons/ingress-controller/ingress-controller-svc.yml` | 非空字符串 |
 | `{{ MASTER1_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4或主机名；禁止提交真实生产地址 |
 | `{{ MASTER2_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4或主机名；禁止提交真实生产地址 |
 | `{{ MASTER3_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4或主机名；禁止提交真实生产地址 |
+| `{{ METRICS_SERVER_IMAGE }}` | mustache | 否 | 镜像引用 | `examples/current/observability/metrics-server-skeleton.yml` | 非空字符串；推荐 digest 或固定 tag |
 | `{{ PLACEHOLDER }}` | mustache | 否 | 配置注入 | `examples/current/README.md` | 非空字符串 |
 | `{{ REGISTRY_MIRROR }}` | mustache | 否 | 配置注入 | `examples/current/runtime/containerd-config.toml.snippet` | 非空字符串 |
 | `{{ TARGET_NAMESPACE }}` | mustache | 否 | Namespace 名 | `examples/current/security/networkpolicy-default-deny-ingress.yml` | 非空字符串 |

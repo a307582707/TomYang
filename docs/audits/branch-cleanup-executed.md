@@ -154,3 +154,30 @@ origin/scripts/cert-expiry
 - 主仓 `master`
 - Wiki `master`
 - Wiki tag `backup/wiki-master-20260727`
+
+## 删除后 — 主仓
+```
+origin/master
+```
+
+## 删除后 — Wiki
+```
+origin/HEAD -> origin/master
+origin/master
+```
+
+## 执行结果
+
+- 主仓删除：**66** 个已合并主题分支（FAIL=0）
+- Wiki 删除：`wiki/ia-restructure`、`wiki/infra-consistency`、`wiki/archive-banners`
+- 保留：主仓/Wiki `master`；tag `backup/wiki-master-20260727`（仍存在）
+
+## 验证
+
+- [x] 主仓远程仅 `master`
+- [x] Wiki 三主题分支已删
+- [x] backup tag 仍存在
+
+## 回滚
+
+误删分支可从对应已合并 PR 的 merge commit 恢复：`git push origin <sha>:refs/heads/<name>`。

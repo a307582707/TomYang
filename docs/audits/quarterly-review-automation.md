@@ -3,7 +3,7 @@
 ## 行为
 
 - 脚本：`scripts/quarterly/run-quarterly-review.sh`
-- **只生成** `docs/audits/quarterly-review-YYYYMMDD.md` 报告草稿
+- **只生成** `docs/audits/quarterly-review-YYYY-QN.md` 报告草稿（如 `2026-Q3`）
 - 可选：维护者将报告粘贴为 Issue（脚本不自动开 Issue，除非设置 `CREATE_GITHUB_ISSUE=1` 且已配置 `gh`——默认关闭）
 
 ## 覆盖

@@ -52,7 +52,7 @@
 
 ## 4. Grafana Secret 注入
 
-**现状:** Secret 已改为 `stringData` 占位符；Git 历史仍可能含旧样例口令。
+**现状:** Secret 已改为 `stringData` 占位符；Git 历史仍可能含旧样例口令。完整处置见 [`historical-secrets-disposition.md`](./historical-secrets-disposition.md)。
 
 | | |
 |--|--|

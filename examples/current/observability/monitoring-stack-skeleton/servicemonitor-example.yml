@@ -1,0 +1,22 @@
+# ServiceMonitor 示例（Task 78）— 需已安装 Prometheus Operator CRD
+# 匹配带 metrics 端口的 Service/Pod；勿拷贝 ExtraAddons 内硬编码命名空间
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: demo-web-metrics
+  namespace: "{{ MONITORING_NAMESPACE }}"
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: demo-web
+  namespaceSelector:
+    matchNames:
+    - default
+  endpoints:
+  - port: metrics
+    interval: 30s
+    scheme: http
+    # 长期默认勿设 tlsConfig.insecureSkipVerify: true
+    # 若目标为 HTTPS，配置 caFile / cert 或 cert-manager 签发

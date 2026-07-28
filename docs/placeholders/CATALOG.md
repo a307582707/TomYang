@@ -27,11 +27,14 @@
 | `{{ HAPROXY_STATS_USER }}` | mustache | 否 | 配置注入 | `k8s/master/etc/haproxy/haproxy.cfg` | 非空字符串 |
 | `{{ INGRESS_CLASS_NAME }}` | mustache | 否 | 配置注入 | `examples/current/ingress/demo-web-ingress.yml` | 非空字符串 |
 | `{{ INGRESS_VIP }}` | mustache | 否 | VIP / 入口地址 | `k8s/ExtraAddons/external-dns/coredns/coredns-svc-tcp.yml`, `k8s/ExtraAddons/external-dns/coredns/coredns-svc-udp.yml`, `k8s/ExtraAddons/ingress-controller/ingress-controller-svc.yml` | 非空字符串 |
+| `{{ KUBE_PROMETHEUS_VERSION }}` | mustache | 否 | 版本 pin | `examples/current/observability/monitoring-stack-skeleton/README.md` | git tag / release |
 | `{{ MASTER1_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4或主机名；禁止提交真实生产地址 |
 | `{{ MASTER2_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4或主机名；禁止提交真实生产地址 |
 | `{{ MASTER3_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4或主机名；禁止提交真实生产地址 |
 | `{{ METRICS_SERVER_IMAGE }}` | mustache | 否 | 镜像引用 | `examples/current/observability/metrics-server-skeleton.yml` | 非空字符串；推荐 digest 或固定 tag |
+| `{{ MONITORING_NAMESPACE }}` | mustache | 否 | Namespace 名 | `examples/current/observability/monitoring-stack-skeleton/alertmanager-config-placeholder.yml`, `examples/current/observability/monitoring-stack-skeleton/servicemonitor-example.yml` | 非空字符串 |
 | `{{ PLACEHOLDER }}` | mustache | 否 | 配置注入 | `examples/current/README.md` | 非空字符串 |
+| `{{ PROMETHEUS_OPERATOR_VERSION }}` | mustache | 否 | 版本 pin | `examples/current/observability/monitoring-stack-skeleton/README.md` | SemVer tag（如 v0.76.0） |
 | `{{ REGISTRY_MIRROR }}` | mustache | 否 | 配置注入 | `examples/current/runtime/containerd-config.toml.snippet` | 非空字符串 |
 | `{{ TARGET_NAMESPACE }}` | mustache | 否 | Namespace 名 | `examples/current/security/networkpolicy-default-deny-ingress.yml` | 非空字符串 |
 | `{{ VIP }}` | mustache | 否 | VIP / 入口地址 | `k8s/master/etc/keepalived/keepalived.conf`, `k8s/master/manifests/keepalived.yml`, `k8s/master/manifests/kube-apiserver.yml` 等 4 处 | 非空字符串 |

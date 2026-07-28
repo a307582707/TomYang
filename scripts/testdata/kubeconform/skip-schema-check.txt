@@ -1,0 +1,4 @@
+# Paths excluded from kubeconform (no bundled OpenAPI / CRD skeleton).
+# See docs/audits/kubeconform-examples.md
+examples/current/runtime/kubelet-config.snippet.yml
+examples/current/security/externalsecret-skeleton.yml

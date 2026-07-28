@@ -4,11 +4,12 @@
 
 ## 骨架文件
 
-| 文件 / 目录 | 说明 |
-|-------------|------|
+| 文件 | 说明 |
+|------|------|
 | `prometheus-skeleton.yml` | Deployment + Service + PVC（`{{ STORAGE_CLASS }}`） |
-| `grafana-skeleton.yml` | 同上；管理员口令仅 `secretKeyRef` |
-| `logging/` | Fluent Bit DaemonSet（stdout + HTTP 占位）；**非**归档 EFK |
+| `grafana-skeleton.yml` | 同上；管理员口令仅 `secretKeyRef`；镜像占位符渲染为 tag@digest |
+
+镜像 digest 钉扎与更新流程见 `docs/audits/image-digest-pin-examples.md`。
 
 持久化设计见 `docs/audits/observability-persistence-design.md`。
 
@@ -17,7 +18,7 @@
 | 能力 | 建议 |
 |------|------|
 | 指标 | 现网 kube-prometheus-stack 或托管 Prometheus；先装匹配的 CRD |
-| 日志 | 现网 Loki / ELK / 云日志；骨架见 `logging/`；**禁止** apply `k8s/archived/efk/`（ES 6.2 + privileged init） |
+| 日志 | 现网 Loki / ELK / 云日志；勿 apply `k8s/archived/efk/` |
 | 仪表盘 | Grafana + PVC；密钥部署时注入 |
 | 控制面抓取 | scheduler/CM 需可达 metrics；确认非仅 `127.0.0.1` |
 

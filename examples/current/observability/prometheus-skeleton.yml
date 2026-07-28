@@ -40,6 +40,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: prometheus
+        # 渲染示例: prom/prometheus:v2.53.0@sha256:075b1ba2…（见 docs/audits/image-digest-pin-examples.md）
         image: "{{ PROMETHEUS_IMAGE }}"
         args:
         - --config.file=/etc/prometheus/prometheus.yml

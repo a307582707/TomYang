@@ -25,6 +25,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: nginx
+        # 渲染为 tag@digest，示例见 docs/placeholders/examples/vars.example.env
         image: "{{ DEMO_WEB_IMAGE }}"
         ports:
         - name: http

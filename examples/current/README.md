@@ -33,3 +33,5 @@ examples/current/     → 现代基线（本目录）
 2. `security/README.md`（PSA / Secret / 无匿名高权）
 3. `apps/nginx/` 或 `apps/demo-web.yml` → `ingress/` → `networkpolicy/`
 4. `observability/`（再选现网监控发行版）
+
+端到端连通性（空集群）：见 [E2E.md](./E2E.md)。

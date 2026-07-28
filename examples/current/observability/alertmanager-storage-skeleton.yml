@@ -1,0 +1,105 @@
+# 最小 Alertmanager 存储骨架（Task 98）— 非 ExtraAddons 拷贝
+# 配置 Secret 见 monitoring-stack-skeleton/alertmanager-config-placeholder.yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alertmanager-data
+  namespace: monitoring
+  labels:
+    app: alertmanager
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: "{{ STORAGE_CLASS }}"
+  resources:
+    requests:
+      storage: "{{ ALERTMANAGER_PVC_SIZE }}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  labels:
+    app: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: alertmanager
+        # 渲染示例: prom/alertmanager:v0.27.0@sha256:…（见 docs/audits/image-digest-pin-examples.md）
+        image: "{{ ALERTMANAGER_IMAGE }}"
+        args:
+        - --config.file=/etc/alertmanager/alertmanager.yml
+        - --storage.path=/alertmanager
+        - --web.listen-address=:9093
+        ports:
+        - name: web
+          containerPort: 9093
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            path: /-/ready
+            port: web
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: web
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        volumeMounts:
+        - name: data
+          mountPath: /alertmanager
+        - name: config
+          mountPath: /etc/alertmanager
+          readOnly: true
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: alertmanager-data
+      - name: config
+        secret:
+          secretName: "{{ ALERTMANAGER_CONFIG_SECRET }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: monitoring
+  labels:
+    app: alertmanager
+spec:
+  type: ClusterIP
+  selector:
+    app: alertmanager
+  ports:
+  - name: web
+    port: 9093
+    targetPort: web

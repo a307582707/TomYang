@@ -16,13 +16,23 @@
 | `{{ ALERTMANAGER_SMTP_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ ALERTMANAGER_SMTP_SMARTHOST }}` | mustache | 否 | 主机/网卡 | `k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml` | 非空字符串 |
 | `{{ ALERTMANAGER_SMTP_USER }}` | mustache | 否 | 配置注入 | `k8s/ExtraAddons/prometheus/alertmanager/alertmanager-main-secret.yml` | 非空字符串 |
+| `{{ ALERTMANAGER_CONFIG_SECRET }}` | mustache | 否 | Secret 名 | `examples/current/observability/alertmanager-storage-skeleton.yml` | 非空字符串 |
+| `{{ ALERTMANAGER_IMAGE }}` | mustache | 否 | 镜像引用 | `examples/current/observability/alertmanager-storage-skeleton.yml` | 非空字符串；推荐 digest 或固定 tag |
+| `{{ ALERTMANAGER_PVC_SIZE }}` | mustache | 否 | PVC 容量 | `examples/current/observability/alertmanager-storage-skeleton.yml` | Kubernetes 数量字符串（如 5Gi） |
+| `{{ GRAFANA_IMAGE }}` | mustache | 否 | 镜像引用 | `examples/current/observability/grafana-skeleton.yml` | 非空字符串；推荐 digest 或固定 tag |
+| `{{ GRAFANA_PVC_SIZE }}` | mustache | 否 | PVC 容量 | `examples/current/observability/grafana-skeleton.yml` | Kubernetes 数量字符串（如 5Gi） |
+| `{{ PROMETHEUS_CONFIG_MAP }}` | mustache | 否 | ConfigMap 名 | `examples/current/observability/prometheus-skeleton.yml` | 非空字符串 |
+| `{{ PROMETHEUS_IMAGE }}` | mustache | 否 | 镜像引用 | `examples/current/observability/prometheus-skeleton.yml` | 非空字符串；推荐 digest 或固定 tag |
+| `{{ PROMETHEUS_PVC_SIZE }}` | mustache | 否 | PVC 容量 | `examples/current/observability/prometheus-skeleton.yml` | Kubernetes 数量字符串（如 10Gi） |
+| `{{ PROMETHEUS_RETENTION }}` | mustache | 否 | TSDB 保留 | `examples/current/observability/prometheus-skeleton.yml` | Prometheus duration（如 15d） |
+| `{{ STORAGE_CLASS }}` | mustache | 否 | StorageClass 名 | `examples/current/observability/*-skeleton.yml` | 非空字符串；须集群存在 |
 | `{{ DEMO_WEB_HOST }}` | mustache | 否 | 主机/网卡 | `examples/current/ingress/demo-web-ingress.yml` | 非空字符串 |
 | `{{ DEMO_WEB_IMAGE }}` | mustache | 否 | 镜像引用 | `examples/current/apps/demo-web.yml` | 非空字符串 |
 | `{{ ENCRYPT_SECRET }}` | mustache | 是 | 凭据（敏感） | `k8s/master/encryption/config.yml` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ GRAFANA_ADMIN_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ GRAFANA_ADMIN_USER }}` | mustache | 否 | 配置注入 | `k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml` | 非空字符串 |
 | `{{ HAPROXY_MGMT_CIDR }}` | mustache | 否 | 网段 | `examples/current/security/haproxy-stats-hardening.md` | CIDR；例 10.0.0.0/24 |
-| `{{ HAPROXY_STATS_BIND }}` | mustache | 否 | 主机/网卡 | `examples/current/security/haproxy-stats-hardening.md` | 管理网 bind 地址；禁止真实生产 IP |
+| `{{ HAPROXY_STATS_BIND }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg`, `examples/current/security/haproxy-stats-hardening.md` | 管理网 bind 地址；默认 `127.0.0.1`；禁止真实生产 IP |
 | `{{ HAPROXY_STATS_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/master/etc/haproxy/haproxy.cfg` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ HAPROXY_STATS_USER }}` | mustache | 否 | 配置注入 | `k8s/master/etc/haproxy/haproxy.cfg` | 非空字符串 |
 | `{{ INGRESS_CLASS_NAME }}` | mustache | 否 | 配置注入 | `examples/current/ingress/demo-web-ingress.yml` | 非空字符串 |

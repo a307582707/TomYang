@@ -7,14 +7,55 @@
 | 文件 / 目录 | 说明 |
 |-------------|------|
 | `metrics-server-skeleton.yml` | 现行 API 的 metrics-server；kubelet TLS 鉴权抓取；验证 `kubectl top` |
-| `prometheus-skeleton.yml` | Deployment + Service + PVC（`{{ STORAGE_CLASS }}`）；镜像可用 tag@digest |
-| `grafana-skeleton.yml` | 同上；管理员口令仅 `secretKeyRef` |
-| `monitoring-stack-skeleton/` | Prometheus Operator / kube-prometheus 最小说明、ServiceMonitor、Alertmanager 占位 |
+| `prometheus-skeleton.yml` | Deployment + Service + PVC（`{{ STORAGE_CLASS }}` / `{{ PROMETHEUS_PVC_SIZE }}`）；镜像可用 tag@digest |
+| `grafana-skeleton.yml` | 同上（`{{ GRAFANA_PVC_SIZE }}`）；管理员口令仅 `secretKeyRef` |
+| `alertmanager-storage-skeleton.yml` | Alertmanager Deployment + PVC（`{{ ALERTMANAGER_PVC_SIZE }}`）；配置 Secret 外置 |
+| `storage-class-reference.yml` | `{{ STORAGE_CLASS }}` 选用说明（注释清单，非 apply） |
+| `monitoring-stack-skeleton/` | Prometheus Operator / kube-prometheus 最小说明、ServiceMonitor、Alertmanager 配置占位 |
 | `logging/` | Fluent Bit 轻量日志（stdout / 占位后端）；与归档 EFK 边界见该目录 README |
 
 镜像 digest 钉扎与更新流程见 `docs/audits/image-digest-pin-examples.md`。
 
 持久化设计见 `docs/audits/observability-persistence-design.md`。
+
+## 持久化占位符
+
+| 占位符 | 典型 Lab 值 | 用途 |
+|--------|-------------|------|
+| `{{ STORAGE_CLASS }}` | `standard` / 现网 SC 名 | 所有 RWO PVC |
+| `{{ PROMETHEUS_PVC_SIZE }}` | `10Gi`–`50Gi` | Prometheus TSDB |
+| `{{ GRAFANA_PVC_SIZE }}` | `5Gi`–`10Gi` | Grafana 仪表盘与用户数据 |
+| `{{ ALERTMANAGER_PVC_SIZE }}` | `5Gi` | Alertmanager 静默/状态 |
+| `{{ PROMETHEUS_RETENTION }}` | `15d` | TSDB 保留（与容量匹配） |
+
+渲染示例见 `docs/placeholders/examples/vars.example.env` 与 `scripts/testdata/kubeconform/dummy-placeholders.env`。
+
+## 备份与恢复（Lab / 空集群）
+
+**仅实验环境**；生产以现网备份策略为准。
+
+| 组件 | 备份 | 恢复要点 |
+|------|------|----------|
+| Prometheus | PVC 卷快照；或 `remote_write` 到长期存储 | 新 PVC 自快照恢复；无快照则 TSDB 不可重建 |
+| Grafana | 导出 dashboard JSON；PVC 快照；`grafana-credentials` Secret 外置备份 | 挂回 PVC 或导入 JSON + 重建 Secret |
+| Alertmanager | 备份 `alertmanager-config` Secret + PVC 快照 | 先恢复 Secret 再挂 PVC；单副本宕机仅影响通知，不丢指标 |
+
+通用步骤（Lab）：
+
+```bash
+# 1. 确认 SC 与 PVC Bound
+kubectl -n monitoring get pvc
+
+# 2. 卷快照（需 CSI snapshot 或云控制台；名称因环境而异）
+# kubectl apply -f volume-snapshot.yml   # 现网模板，勿提交真实 SC/卷 ID
+
+# 3. 恢复演练：删 Deployment（保留 PVC）→ 从快照建新 PVC → 再 apply 骨架
+kubectl -n monitoring delete deploy/prometheus --ignore-not-found
+# …按现网 snapshot restore 流程挂回 prometheus-data …
+kubectl apply -f prometheus-skeleton.yml   # 渲染后
+```
+
+失败行为与 HA 注意点见 `docs/audits/observability-persistence-design.md` §失败与恢复检查清单。
 
 ## 推荐方向
 

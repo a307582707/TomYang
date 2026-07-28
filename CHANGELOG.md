@@ -2,7 +2,7 @@
 
 本文件记录 **本教材仓库（TomYang）自身** 的版本变更，**不是**上游 Kubernetes 发行版 changelog。
 
-版本规则、Tag 约定与发布检查单见 [`docs/RELEASE.md`](docs/RELEASE.md)。  
+版本规则、Tag 约定与发布检查单见 [`docs/RELEASE.md`](docs/RELEASE.md)。
 `v0.1.0` 维护者 tag 步骤见 [`docs/release/v0.1.0.md`](docs/release/v0.1.0.md)。
 
 ## 版本号说明（摘要）

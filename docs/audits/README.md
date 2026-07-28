@@ -36,6 +36,7 @@
 | [infra01-path-realignment.md](./infra01-path-realignment.md) | Task 67 Wiki 路径对齐 | checklist | P1 | INFRA-01/05 路径与 rename 同步 |
 | [dangerous-patterns.md](./dangerous-patterns.md) | Task 69 危险模式检查 | 脚本就绪；可选接线 | P0 | 防匿名高权 / insecure kubelet / docker.sock 回流 |
 | [hygiene-acceptance-2026-07-27.md](./hygiene-acceptance-2026-07-27.md) | Task 73 卫生验收模板 | **待父流程填写** | — | 合并后最终勾选 |
+| [v0.1-risk-board.md](./v0.1-risk-board.md) | **v0.1 后进度/风险板** | 活跃 | P1 | post-v0.1 入口；链 #71–#73 |
 
 ## 相关 runbook（非 audits，但常一起查）
 

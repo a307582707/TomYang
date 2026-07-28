@@ -15,5 +15,7 @@
 | 脚本 | 说明 |
 |------|------|
 | `check-modern-examples.sh` | `examples/current` 现代 API 基线 |
+| `generate-image-inventory.sh` | 生成 `docs/audits/image-inventory.{json,csv}` |
+| `check-image-inventory.sh` | 重新生成并校验镜像盘点字段 |
 | `check-kubeconform.sh` | （Task 83 分支）schema 校验 |
 | `test-static-checks.sh` | YAML/secret/shell 等夹具总集 |

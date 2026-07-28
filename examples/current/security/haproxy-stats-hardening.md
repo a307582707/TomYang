@@ -1,6 +1,6 @@
 # HAProxy stats 面加固（Task 79）
 
-控制面模板 `k8s/master/etc/haproxy/haproxy.cfg` 中 stats 默认 `bind *:8006` 便于实验室阅读，**现网须收敛监听面与凭据**。历史模板可保留占位符；运行副本按本文加固。
+控制面模板 `k8s/master/etc/haproxy/haproxy.cfg` 中 stats 使用 `bind {{ HAPROXY_STATS_BIND }}:8006`（示例默认 `127.0.0.1`）。**现网**须按管理网 IP 渲染并叠加防火墙 ACL 与强凭据。
 
 ## 目标
 
@@ -106,14 +106,14 @@ nc -zv <node-management-ip> 8006   # 管理网：open
 nc -zv <node-business-ip> 8006     # 业务网：closed / filtered
 ```
 
-## 5. 与历史模板的关系
+## 5. 与 Git 模板的关系
 
-- **Git 模板** `k8s/master/etc/haproxy/haproxy.cfg` 可继续用 `{{ HAPROXY_STATS_* }}` 占位；本文件描述**部署后**运行副本加固，不要求在本 PR 中改历史 bind 默认值（见 `docs/audits/remaining-security-remediation.md` §3）。
-- 渲染脚本：`scripts/render/render.sh` 已列出 `HAPROXY_STATS_USER` / `HAPROXY_STATS_PASSWORD`。
+- **Git 模板** `k8s/master/etc/haproxy/haproxy.cfg` 已使用 `bind {{ HAPROXY_STATS_BIND }}:8006`；`HAPROXY_STATS_BIND` 见 `docs/placeholders/examples/vars.example.env`（默认 `127.0.0.1`，管理网部署改为管理 IP）。
+- 渲染脚本：`scripts/render/render.sh` 从 `vars.example.env` 加载 `HAPROXY_STATS_BIND`；敏感项 `HAPROXY_STATS_USER` / `HAPROXY_STATS_PASSWORD` 经环境变量注入。
 
 ## 6. 回滚
 
-1. 恢复 stats `bind *:8006` 的备份配置并重载 HAProxy。
+1. 恢复 stats `bind` 的备份配置并重载 HAProxy。
 2. 撤销防火墙 rich-rule / iptables 规则。
 3. 凭据轮换若已执行，在 Secret 管理器中回滚上一版本。
 

@@ -184,9 +184,10 @@
     "format": "mustache",
     "sensitive": false,
     "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg",
       "examples/current/security/haproxy-stats-hardening.md"
     ],
-    "validation": "管理网 bind 地址；禁止真实生产 IP",
+    "validation": "管理网 bind 地址；默认 127.0.0.1；禁止真实生产 IP",
     "purpose": "主机/网卡"
   },
   {

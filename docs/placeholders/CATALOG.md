@@ -22,7 +22,7 @@
 | `{{ GRAFANA_ADMIN_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ GRAFANA_ADMIN_USER }}` | mustache | 否 | 配置注入 | `k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml` | 非空字符串 |
 | `{{ HAPROXY_MGMT_CIDR }}` | mustache | 否 | 网段 | `examples/current/security/haproxy-stats-hardening.md` | CIDR；例 10.0.0.0/24 |
-| `{{ HAPROXY_STATS_BIND }}` | mustache | 否 | 主机/网卡 | `examples/current/security/haproxy-stats-hardening.md` | 管理网 bind 地址；禁止真实生产 IP |
+| `{{ HAPROXY_STATS_BIND }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg`, `examples/current/security/haproxy-stats-hardening.md` | 管理网 bind 地址；默认 `127.0.0.1`；禁止真实生产 IP |
 | `{{ HAPROXY_STATS_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/master/etc/haproxy/haproxy.cfg` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ HAPROXY_STATS_USER }}` | mustache | 否 | 配置注入 | `k8s/master/etc/haproxy/haproxy.cfg` | 非空字符串 |
 | `{{ INGRESS_CLASS_NAME }}` | mustache | 否 | 配置注入 | `examples/current/ingress/demo-web-ingress.yml` | 非空字符串 |

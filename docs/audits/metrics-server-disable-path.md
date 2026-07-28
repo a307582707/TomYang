@@ -1,6 +1,6 @@
 # Task 97 — 归档 metrics-server 禁用路径文档化
 
-**Issue:** [#72](https://github.com/a307582707/TomYang/issues/72)  
+**Issue:** [#72](https://github.com/a307582707/TomYang/issues/72)
 **日期:** 2026-07-29
 
 ## 修改摘要

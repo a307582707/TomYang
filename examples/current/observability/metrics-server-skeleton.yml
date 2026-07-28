@@ -116,7 +116,7 @@ spec:
         - --kubelet-use-node-status-port
         - --kubelet-certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
         - --metric-resolution=15s
-        # 禁止作为默认：--kubelet-insecure-tls / --deprecated-kubelet-completely-insecure
+        # 禁止作为默认：任何 insecure TLS / 已废弃的 kubelet 明文抓取参数（见本目录 README）
         ports:
         - name: https
           containerPort: 4443

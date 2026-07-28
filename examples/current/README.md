@@ -8,7 +8,7 @@
 | `apps/` | 工作负载示例（`apps/v1`）；含 `nginx/` kustomize |
 | `ingress/` | `networking.k8s.io/v1` Ingress |
 | `networkpolicy/` | 默认拒绝 + 常见放行 |
-| `observability/` | Prometheus/Grafana PVC 骨架（非旧 Operator 全量拷贝） |
+| `observability/` | Prometheus/Grafana PVC 骨架；`logging/` Fluent Bit（非 EFK） |
 | `security/` | PSA 标签、Secret 注入说明、禁匿名等 |
 | `runtime/` | containerd + kubelet 节点侧片段 |
 

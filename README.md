@@ -54,6 +54,15 @@
 清单基于早期版本编写（apiserver `v1.11.1`、etcd `v3.3.9`、Calico `v3.1`），保留为自建流程与参数组织方式的参考。
 用于新集群时需要按目标版本核对镜像标签、API 版本与已废弃参数，不建议直接照搬到生产环境。
 
+## 许可证
+
+**尚未选定正式许可证。** 候选方案与利弊见 [docs/audits/license-candidates.md](docs/audits/license-candidates.md)；来源审计见 [docs/audits/license-and-provenance.md](docs/audits/license-and-provenance.md)。
+
+在维护者确认并添加根目录 `LICENSE` 之前：
+
+- 请勿假设本仓可按某一 OSI 许可再分发
+- 第三方 YAML / 镜像仍须遵守其各自上游许可与保留义务
+
 ## 维护与事实源
 
 - 组件台账与复查：[docs/MAINTENANCE.md](docs/MAINTENANCE.md)

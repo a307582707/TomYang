@@ -1,7 +1,7 @@
 # Task 94 — Wiki 现代示例基线条目同步记录
 
-**同步时间:** 2026-07-29（UTC+8）  
-**Wiki 目标:** `TomYang.wiki` → `master`  
+**同步时间:** 2026-07-29（UTC+8）
+**Wiki 目标:** `TomYang.wiki` → `master`
 **主仓:** 本文件为同步台账；**未**将 Wiki 长文复制回 `wiki/` 目录。
 
 ## 修改页面

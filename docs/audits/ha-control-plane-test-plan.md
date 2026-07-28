@@ -83,6 +83,8 @@
 
 ## 记录模板
 
+复制即用桌面演练纪要（含 VIP 漂移、单 master down、HAProxy backend、etcd 成员不可用）见 [`docs/drills/control-plane-ha-tabletop-minutes.md`](../drills/control-plane-ha-tabletop-minutes.md)。
+
 | ID | 开始/结束 | 操作 | 观察 | 结果 | 备注 |
 |----|-----------|------|------|------|------|
 | T1 | | | | PASS/FAIL | |

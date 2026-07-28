@@ -84,3 +84,8 @@ VIP:8443  (HAProxy frontend k8s-api)
 
 - Wiki：revert 对应 commit 或检出 `backup/wiki-master-20260727` 后再 cherry-pick 正确路径提交。
 - 本清单：文档-only，关闭 PR 即可。
+
+## Task 76 补充
+
+- HAProxy `backend k8s-api` 已含 `{{ MASTER1_IP|MASTER2_IP|MASTER3_IP }}:5443` server 行；见 [haproxy-backend-placeholders.md](./haproxy-backend-placeholders.md)。
+- Wiki INFRA-01 应写明：**至少 3 master**（默认教材）；单节点 lab 可删减 server 行。

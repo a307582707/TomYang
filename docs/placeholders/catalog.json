@@ -1,5 +1,55 @@
 [
   {
+    "placeholder": "{HOSTNAME}",
+    "format": "brace",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/etcd/config.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{KUBE_APISERVER}",
+    "format": "brace",
+    "sensitive": false,
+    "files": [
+      "k8s/addons/kube-proxy/kube-proxy.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{PUBLIC_IP}",
+    "format": "brace",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/etcd/config.yml"
+    ],
+    "validation": "非空字符串",
+    "purpose": "配置注入"
+  },
+  {
+    "placeholder": "{TOKEN_ID}",
+    "format": "brace",
+    "sensitive": true,
+    "files": [
+      "k8s/master/resources/bootstrap-token-Secret.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
+    "placeholder": "{TOKEN_SECRET}",
+    "format": "brace",
+    "sensitive": true,
+    "files": [
+      "k8s/master/resources/bootstrap-token-Secret.yml"
+    ],
+    "validation": "仅经环境变量注入；长度≥1；禁止提交",
+    "purpose": "凭据（敏感）"
+  },
+  {
     "placeholder": "{{ ALERTMANAGER_ALERT_EMAIL }}",
     "format": "mustache",
     "sensitive": false,
@@ -160,6 +210,36 @@
     ],
     "validation": "非空字符串",
     "purpose": "VIP / 入口地址"
+  },
+  {
+    "placeholder": "{{ MASTER1_IP }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg"
+    ],
+    "validation": "IPv4或主机名；禁止提交真实生产地址",
+    "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{{ MASTER2_IP }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg"
+    ],
+    "validation": "IPv4或主机名；禁止提交真实生产地址",
+    "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{{ MASTER3_IP }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "k8s/master/etc/haproxy/haproxy.cfg"
+    ],
+    "validation": "IPv4或主机名；禁止提交真实生产地址",
+    "purpose": "主机/网卡"
   },
   {
     "placeholder": "{{ PLACEHOLDER }}",
@@ -377,55 +457,5 @@
     ],
     "validation": "非空字符串",
     "purpose": "配置注入"
-  },
-  {
-    "placeholder": "{HOSTNAME}",
-    "format": "brace",
-    "sensitive": false,
-    "files": [
-      "k8s/master/etc/etcd/config.yml"
-    ],
-    "validation": "非空字符串",
-    "purpose": "主机/网卡"
-  },
-  {
-    "placeholder": "{KUBE_APISERVER}",
-    "format": "brace",
-    "sensitive": false,
-    "files": [
-      "k8s/addons/kube-proxy/kube-proxy.yml"
-    ],
-    "validation": "非空字符串",
-    "purpose": "配置注入"
-  },
-  {
-    "placeholder": "{PUBLIC_IP}",
-    "format": "brace",
-    "sensitive": false,
-    "files": [
-      "k8s/master/etc/etcd/config.yml"
-    ],
-    "validation": "非空字符串",
-    "purpose": "配置注入"
-  },
-  {
-    "placeholder": "{TOKEN_ID}",
-    "format": "brace",
-    "sensitive": true,
-    "files": [
-      "k8s/master/resources/bootstrap-token-Secret.yml"
-    ],
-    "validation": "仅经环境变量注入；长度≥1；禁止提交",
-    "purpose": "凭据（敏感）"
-  },
-  {
-    "placeholder": "{TOKEN_SECRET}",
-    "format": "brace",
-    "sensitive": true,
-    "files": [
-      "k8s/master/resources/bootstrap-token-Secret.yml"
-    ],
-    "validation": "仅经环境变量注入；长度≥1；禁止提交",
-    "purpose": "凭据（敏感）"
   }
 ]

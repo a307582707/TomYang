@@ -194,8 +194,7 @@
     "format": "mustache",
     "sensitive": true,
     "files": [
-      "k8s/master/etc/haproxy/haproxy.cfg",
-      "examples/current/security/haproxy-stats-hardening.md"
+      "k8s/master/etc/haproxy/haproxy.cfg"
     ],
     "validation": "仅经环境变量注入；长度≥1；禁止提交",
     "purpose": "凭据（敏感）"
@@ -205,8 +204,7 @@
     "format": "mustache",
     "sensitive": false,
     "files": [
-      "k8s/master/etc/haproxy/haproxy.cfg",
-      "examples/current/security/haproxy-stats-hardening.md"
+      "k8s/master/etc/haproxy/haproxy.cfg"
     ],
     "validation": "非空字符串",
     "purpose": "配置注入"
@@ -262,6 +260,16 @@
     ],
     "validation": "IPv4或主机名；禁止提交真实生产地址",
     "purpose": "主机/网卡"
+  },
+  {
+    "placeholder": "{{ METRICS_SERVER_IMAGE }}",
+    "format": "mustache",
+    "sensitive": false,
+    "files": [
+      "examples/current/observability/metrics-server-skeleton.yml"
+    ],
+    "validation": "非空字符串；推荐 digest 或固定 tag",
+    "purpose": "镜像引用"
   },
   {
     "placeholder": "{{ PLACEHOLDER }}",

@@ -2,8 +2,8 @@
 
 **范围:** 实验 / 沙箱集群。**不要**对生产集群执行本目录。
 
-镜像钉扎为 `nginx:1.27.5`（禁止 `latest`）。标签 `app: nginx` 与
-`examples/current/networkpolicy/20-allow-ingress-to-app.yml` 的 `APP_LABEL` 约定对齐。
+镜像钉扎为 `nginx:1.27.5@sha256:6784…`（禁止 `latest`）。更新 digest 见 `docs/audits/image-digest-pin-examples.md`。
+标签 `app: nginx` 与 `examples/current/networkpolicy/20-allow-ingress-to-app.yml` 的 `APP_LABEL` 约定对齐。
 
 ## 部署
 

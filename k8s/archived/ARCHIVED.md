@@ -10,7 +10,7 @@
 |------|------|
 | `WeaveScope/` | privileged、hostPID/hostNetwork、Docker socket；项目停更 |
 | `dashboard/` | Dashboard v1.8.3 EOL；曾含匿名代理 + `cluster-admin`（该 RBAC 文件已删除，见下） |
-| `metrics-server/` | 旧版本；含 `--deprecated-kubelet-completely-insecure` 等不安全抓取 |
+| `metrics-server/` | 旧版本；含 `--deprecated-kubelet-completely-insecure` 等不安全抓取 | 替代：[`examples/current/observability/metrics-server-skeleton.yml`](../../examples/current/observability/metrics-server-skeleton.yml) |
 | `kube-dns/` | kube-dns EOL；由 CoreDNS 取代 |
 | `efk/` | ES/Kibana 6.2 EOL；默认 emptyDir、特权容器等历史假设 |
 

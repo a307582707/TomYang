@@ -23,7 +23,7 @@
 | etcd | v3.3.9 | 高 | 快照演练后迁移；见 runbook |
 | Calico / Flannel | v3.1 / v0.10 | 高 | 与现网 CNI 二选一对齐 |
 | CoreDNS | 1.2.0 | 高 | 随集群重建 |
-| metrics-server（归档） | v0.2/v0.3 | 高 | **禁止** apply 归档 insecure 清单 |
+| metrics-server（归档） | v0.2/v0.3 | 高 | **禁止** apply 归档 insecure 清单 → 用 [`metrics-server-skeleton.yml`](../../examples/current/observability/metrics-server-skeleton.yml) |
 | Prometheus Operator / Grafana | v0.22 / 5.1 | 高 | 全量重建监控栈 |
 | HAProxy / Keepalived | 1.7 / 1.3.9 | 中 | backend 占位符已文档化 |
 

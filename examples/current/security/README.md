@@ -12,6 +12,7 @@
 | 文件 | 说明 |
 |------|------|
 | `haproxy-stats-hardening.md` | stats 仅管理网 bind、防火墙 ACL、`{{ HAPROXY_STATS_* }}` 与 `:8006` 验证 |
+| 归档 metrics-server | **禁止** apply `k8s/archived/metrics-server/`；见 [`../observability/metrics-server-skeleton.yml`](../observability/metrics-server-skeleton.yml) |
 | `networkpolicy-default-deny-ingress.yml` | 命名空间级默认拒绝 Ingress |
 | `psa-namespace-labels.yml` | Pod Security Admission 标签占位 |
 | `secret-injection-note.md` | Secret 外置注入约定 |

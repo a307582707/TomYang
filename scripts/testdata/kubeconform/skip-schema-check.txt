@@ -2,3 +2,5 @@
 # See docs/audits/kubeconform-examples.md
 examples/current/runtime/kubelet-config.snippet.yml
 examples/current/security/externalsecret-skeleton.yml
+
+examples/current/observability/monitoring-stack-skeleton/servicemonitor-example.yml

@@ -18,6 +18,9 @@
 | `{{ GRAFANA_ADMIN_USER }}` | mustache | 否 | 配置注入 | `k8s/ExtraAddons/prometheus/grafana/grafana-admin-secret.yml` | 非空字符串 |
 | `{{ HAPROXY_STATS_PASSWORD }}` | mustache | 是 | 凭据（敏感） | `k8s/master/etc/haproxy/haproxy.cfg` | 仅经环境变量注入；长度≥1；禁止提交 |
 | `{{ HAPROXY_STATS_USER }}` | mustache | 否 | 配置注入 | `k8s/master/etc/haproxy/haproxy.cfg` | 非空字符串 |
+| `{{ MASTER1_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | IPv4/主机名；禁止提交真实生产地址 |
+| `{{ MASTER2_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | 同上；单 master 可渲染后注释对应 server |
+| `{{ MASTER3_IP }}` | mustache | 否 | 主机/网卡 | `k8s/master/etc/haproxy/haproxy.cfg` | 同上；推荐至少 3 master |
 | `{{ INGRESS_CLASS_NAME }}` | mustache | 否 | 配置注入 | `examples/current/ingress/demo-web-ingress.yml` | 非空字符串 |
 | `{{ INGRESS_VIP }}` | mustache | 否 | VIP / 入口地址 | `k8s/ExtraAddons/external-dns/coredns/coredns-svc-tcp.yml`, `k8s/ExtraAddons/external-dns/coredns/coredns-svc-udp.yml`, `k8s/ExtraAddons/ingress-controller/ingress-controller-svc.yml` | 非空字符串 |
 | `{{ PLACEHOLDER }}` | mustache | 否 | 配置注入 | `examples/current/README.md` | 非空字符串 |

@@ -28,7 +28,7 @@ Wiki 内容与主仓分离；CI 仅验证链接目标在克隆快照中存在，
 
 | 类型 | 行为 |
 |------|------|
-| fenced code 内 `[假链](...)` | 不扫描 |
+| fenced code 内的伪链接（方括号+圆括号，目标为三点省略） | 不扫描 |
 | 中文锚点 slug 与 GitHub 渲染差异 | `WARN`；部分模式打印 `IGNORE`（见脚本 `IGNORE_WARN_SUBSTRINGS`） |
 | 外链 example.com 等 | 不校验 wiki 页存在性 |
 | Wiki 克隆失败 | 默认 skip（非错误） |

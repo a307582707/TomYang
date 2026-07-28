@@ -199,7 +199,7 @@ out_json.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", en
 
 fieldnames = ["path", "image", "tag", "digest", "eol_risk", "source", "ref_type", "raw_ref"]
 with out_csv.open("w", encoding="utf-8", newline="") as fh:
-    writer = csv.DictWriter(fh, fieldnames=fieldnames, extrasaction="ignore")
+    writer = csv.DictWriter(fh, fieldnames=fieldnames, extrasaction="ignore", lineterminator="\n")
     writer.writeheader()
     writer.writerows(entries)
 

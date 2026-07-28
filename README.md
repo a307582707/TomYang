@@ -27,7 +27,7 @@
 |------|------|
 | `k8s/archived/**` | 高风险历史反例（Dashboard 匿名 RBAC、EFK privileged、旧 metrics-server 等） |
 | `k8s/ExtraAddons/efk/`、`dashboard/`、`WeaveScope/` | 已迁至 `k8s/archived/`；旧路径仅跳转 |
-| `k8s/addons/metrics-server/`、`Kubedns/`、`kube-dns/` | 已归档或 stub；现网用 `examples/current/` 或发行版清单 |
+| `k8s/addons/metrics-server/`、`Kubedns/`、`kube-dns/` | 已归档或 stub；现网用 [`examples/current/observability/metrics-server-skeleton.yml`](examples/current/observability/metrics-server-skeleton.yml) 或发行版清单 |
 | 任何恢复 `anonymous-proxy-rbac` / 匿名 `cluster-admin` 的清单 | 安全回归 |
 
 新集群请优先阅读 [INFRA-01](https://github.com/a307582707/TomYang/wiki/INFRA-01-本仓HA控制面与节点接入) 与 [`examples/current/`](examples/current/README.md)。

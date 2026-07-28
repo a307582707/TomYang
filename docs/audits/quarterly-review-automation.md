@@ -10,6 +10,14 @@
 
 EOL 提醒、CVE（人工）、镜像可用性（人工）、链接、静态检查、维护日期、高风险遗留
 
+**台账脚本：** `scripts/check-maintenance-ledger.sh`（`--json` 供季度报告嵌入；`run-quarterly-review.sh` 已调用）
+
+| 检查项 | 说明 |
+|--------|------|
+| 全局/组件「下次复查」 | 过期 → exit 1 |
+| 归档路径引用 | 须含「归档/禁止」类说明 |
+| 高风险组件 | 缺 `#NN` Issue 引用时 warn（`MAINTENANCE_LEDGER_STRICT_ISSUES=1` 升级为 fail） |
+
 ## 禁止
 
 - 自动升级组件  

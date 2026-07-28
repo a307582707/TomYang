@@ -1,0 +1,39 @@
+# Optional kind smoke — manual dispatch only (Task 104).
+# Design: docs/audits/kind-smoke-design.md
+name: kind-smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_delete:
+        description: Keep kind cluster after run (debug)
+        required: false
+        default: "0"
+        type: choice
+        options:
+          - "0"
+          - "1"
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install kind
+        run: |
+          curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.24.0/kind-linux-amd64"
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          kind version
+
+      - name: Phase A — nginx smoke (examples/current subset)
+        env:
+          KIND_SMOKE_SKIP_DELETE: ${{ inputs.skip_delete }}
+        run: bash scripts/kind-smoke.sh
+
+      - name: Document Phase B/C (ingress + metrics)
+        run: |
+          echo "Ingress and metrics verification remain design-first; see docs/audits/kind-smoke-design.md"
+          test -f docs/audits/kind-smoke-design.md

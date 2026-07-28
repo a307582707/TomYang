@@ -7,6 +7,8 @@
 
 ## 部署
 
+控制器安装与 TLS/E2E 见 [`examples/current/ingress/controller/E2E-NOTES.md`](../../ingress/controller/E2E-NOTES.md)。
+
 ```bash
 # 先替换 Ingress 占位符 {{ INGRESS_CLASS_NAME }} / {{ NGINX_HOST }}
 kubectl apply -k examples/current/apps/nginx/

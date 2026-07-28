@@ -23,7 +23,10 @@ out_csv = Path(sys.argv[3])
 scan_date = sys.argv[4]
 
 SCAN_ROOTS = ("k8s", "examples")
-IMAGE_RE = re.compile(r"^\s*(- )?image:\s*['\"]?([^'\"#\s]+)", re.M)
+IMAGE_LINE_RE = re.compile(
+    r"^\s*(- )?image:\s*(?:(['\"])(.+?)\2|(\S+))",
+    re.M,
+)
 BASE_IMAGE_RE = re.compile(r"^\s*baseImage:\s*['\"]?([^'\"#\s]+)", re.M)
 VERSION_RE = re.compile(r"^\s*version:\s*['\"]?([^'\"#\s]+)", re.M)
 DIGEST_RE = re.compile(r"@sha256:[a-f0-9]{64}$", re.I)
@@ -65,8 +68,7 @@ LOW_PATTERNS = (
 )
 
 
-def source_for(path: Path) -> str:
-    rel = path.as_posix()
+def source_for(rel: str) -> str:
     if rel.startswith("examples/current/"):
         return "examples/current"
     if rel.startswith("k8s/"):
@@ -100,14 +102,14 @@ def parse_image_ref(raw: str) -> tuple[str, str, str]:
     ref = raw
     if "@" in raw:
         ref, digest_part = raw.rsplit("@", 1)
-        if DIGEST_RE.search("@" + digest_part):
+        if re.fullmatch(r"sha256:[a-f0-9]{64}", digest_part, re.I):
             digest = digest_part.lower()
         else:
             ref = raw
 
     tag = ""
     image = ref
-    if ":" in ref:
+    if ":" in ref and not ref.endswith(":"):
         image, tag = ref.rsplit(":", 1)
         if "/" in tag:
             image, tag = ref, ""
@@ -130,11 +132,11 @@ for scan_root in SCAN_ROOTS:
             continue
         rel = path.relative_to(root).as_posix()
         text = path.read_text(encoding="utf-8", errors="replace")
-        src = source_for(path)
+        src = source_for(rel)
 
         for doc in split_docs(text):
-            for m in IMAGE_RE.finditer(doc):
-                raw = m.group(2)
+            for m in IMAGE_LINE_RE.finditer(doc):
+                raw = (m.group(3) or m.group(4) or "").strip()
                 image, tag, digest = parse_image_ref(raw)
                 if not digest:
                     digest = ""
@@ -143,12 +145,13 @@ for scan_root in SCAN_ROOTS:
                 if key in seen:
                     continue
                 seen.add(key)
+                is_ph = bool(PLACEHOLDER_RE.search(raw))
                 entries.append(
                     {
                         "path": rel,
                         "image": image,
-                        "tag": tag or ("unknown" if not PLACEHOLDER_RE.search(raw) else ""),
-                        "digest": digest or ("unknown" if not digest and not PLACEHOLDER_RE.search(raw) else ""),
+                        "tag": tag if tag or is_ph else "unknown",
+                        "digest": digest if digest or is_ph else "unknown",
                         "eol_risk": eol,
                         "source": src,
                         "ref_type": "image",
